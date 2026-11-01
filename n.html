@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدرسة السلطان عيسى الساير | النظام المتكامل</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --kindergarten: #ec4899;
+            --primary-stage: #3b82f6;
+            --middle-stage: #10b981;
+            --high-stage: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+
+        /* Login */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-box .logo-icon { font-size: 4rem; color: var(--accent); margin-bottom: 1rem; }
+        .login-box h2 { color: var(--primary); margin-bottom: 0.5rem; }
+        .login-box p { color: var(--text-light); margin-bottom: 2rem; }
+        .login-box input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .login-box input:focus { outline: none; border-color: var(--secondary); }
+        .login-box button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .login-hint {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #fef3c7;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #92400e;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo { display: flex; align-items: center; gap: 15px; }
+        .logo i { font-size: 2.5rem; color: var(--accent); }
+        .logo h1 { font-size: 1.5rem; }
+        .logo p { font-size: 0.9rem; opacity: 0.9; }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Main Navigation */
+        nav {
+            background: var(--card-bg);
+            padding: 0 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 3px;
+            overflow-x: auto;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .nav-btn {
+            padding: 1rem 1.2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover { color: var(--primary); background: #f8fafc; }
+        .nav-btn.active { color: var(--primary); border-bottom-color: var(--accent); }
+        .nav-btn.stage-kg.active { color: var(--kindergarten); border-bottom-color: var(--kindergarten); }
+        .nav-btn.stage-pr.active { color: var(--primary-stage); border-bottom-color: var(--primary-stage); }
+        .nav-btn.stage-md.active { color: var(--middle-stage); border-bottom-color: var(--middle-stage); }
+        .nav-btn.stage-hs.active { color: var(--high-stage); border-bottom-color: var(--high-stage); }
+
+        /* Main */
+        main { max-width: 1400px; margin: 2rem auto; padding: 0 1.5rem; }
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Stage Cards in Dashboard */
+        .stages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stage-card {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .stage-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+        }
+
+        .stage-card.kg::before { background: var(--kindergarten); }
+        .stage-card.pr::before { background: var(--primary-stage); }
+        .stage-card.md::before { background: var(--middle-stage); }
+        .stage-card.hs::before { background: var(--high-stage); }
+
+        .stage-card .stage-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stage-card.kg .stage-icon { color: var(--kindergarten); }
+        .stage-card.pr .stage-icon { color: var(--primary-stage); }
+        .stage-card.md .stage-icon { color: var(--middle-stage); }
+        .stage-card.hs .stage-icon { color: var(--high-stage); }
+
+        .stage-card h3 { font-size: 1.3rem; color: var(--primary); margin-bottom: 0.5rem; }
+        .stage-card .count {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0.5rem 0;
+        }
+        .stage-card .info { color: var(--text-light); font-size: 0.9rem; }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            border-right: 5px solid var(--secondary);
+        }
+
+        .stat-card i { font-size: 2rem; padding: 15px; border-radius: 50%; }
+        .stat-card h3 { font-size: 1.8rem; color: var(--primary); }
+        .stat-card p { color: var(--text-light); font-size: 0.85rem; }
+        .stat-card.success { border-right-color: var(--success); }
+        .stat-card.success i { color: var(--success); background: #d1fae5; }
+        .stat-card.warning { border-right-color: var(--warning); }
+        .stat-card.warning i { color: var(--warning); background: #fef3c7; }
+        .stat-card.danger { border-right-color: var(--danger); }
+        .stat-card.danger i { color: var(--danger); background: #fee2e2; }
+        .stat-card.primary i { color: var(--secondary); background: #dbeafe; }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Stage Header */
+        .stage-header {
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stage-header.kg { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .stage-header.pr { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+        .stage-header.md { background: linear-gradient(135deg, #10b981, #34d399); }
+        .stage-header.hs { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+
+        .stage-header h2 { color: white; border: none; margin: 0; font-size: 1.8rem; }
+        .stage-header p { opacity: 0.9; }
+
+        /* Sub Tabs inside stage */
+        .sub-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 1.5rem;
+            background: #f9fafb;
+            padding: 5px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sub-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 0.8rem 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .sub-tab:hover { background: white; }
+        .sub-tab.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+        .sub-section { display: none; }
+        .sub-section.active { display: block; animation: fadeIn 0.3s; }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group label { font-weight: 600; font-size: 0.95rem; }
+        .form-group input, .form-group select {
+            padding: 0.8rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #1e40af; transform: translateY(-2px); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; padding: 0.5rem 1rem; font-size: 0.85rem; }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+
+        /* Tables */
+        .table-container { overflow-x: auto; margin-top: 1rem; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th, td { padding: 1rem; text-align: right; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f9fafb; color: var(--primary); font-weight: 700; }
+        tr:hover { background: #f9fafb; }
+
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-green { background: #d1fae5; color: #065f46; }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .badge-yellow { background: #fef3c7; color: #92400e; }
+        .badge-pink { background: #fce7f3; color: #9f1239; }
+
+        /* Fee Types */
+        .fee-type-item {
+            background: #f9fafb;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-right: 4px solid var(--secondary);
+        }
+
+        .fee-type-item h4 { color: var(--primary); margin-bottom: 0.3rem; }
+        .fee-type-item .amount { font-size: 1.3rem; font-weight: 700; color: var(--success); }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success { background: #d1fae5; color: #065f46; border-right: 4px solid var(--success); }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.5rem;
+            justify-content: flex-end;
+        }
+
+        /* Class chips for kindergarten */
+        .class-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .class-chip {
+            padding: 0.4rem 1rem;
+            background: #fce7f3;
+            color: #9f1239;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; }
+            .logo { flex-direction: column; }
+            .stage-header { flex-direction: column; text-align: center; }
+        }
+
+        @media print {
+            header, nav, .btn, .logout-btn, .sub-tabs { display: none !important; }
+            .card { box-shadow: none; border: 1px solid #ddd; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="loginScreen" class="login-screen">
+    <div class="login-box">
+        <i class="fas fa-school logo-icon"></i>
+        <h2>مدرسة السلطان عيسى الساير</h2>
+        <p>النظام المتكامل لإدارة المراحل الدراسية والرسوم</p>
+        <form onsubmit="loginDirector(event)">
+            <input type="text" id="loginUsername" placeholder="اسم المستخدم" required>
+            <input type="password" id="loginPassword" placeholder="كلمة المرور" required>
+            <button type="submit"><i class="fas fa-sign-in-alt"></i> دخول</button>
+        </form>
+        <div class="login-hint">
+            <i class="fas fa-info-circle"></i>
+            <strong>بيانات الدخول:</strong><br>
+            : <code></code>: <code></code>
+        </div>
+    </div>      
+</div>
+
+<!-- Main App -->
+<div id="mainApp" style="display: none;">
+    <header>
+        <div class="logo">
+            <i class="fas fa-school"></i>
+            <div>
+                <h1>مدرسة السلطان عيسى الساير</h1>
+                <p>النظام المتكامل - 2026</p>
+            </div>
+        </div>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <span style="color: white; font-size: 0.9rem;">
+                <i class="fas fa-user-shield"></i> مرحباً، المدير
+            </span>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> خروج
+            </button>
+        </div>
+    </header>
+
+    <nav>
+        <button class="nav-btn active" onclick="showSection('dashboard', this)">
+            <i class="fas fa-home"></i> الرئيسية
+        </button>
+        <button class="nav-btn stage-kg" onclick="showSection('stage-kg', this)">
+            <i class="fas fa-baby"></i> الروضة
+        </button>
+        <button class="nav-btn stage-pr" onclick="showSection('stage-pr', this)">
+            <i class="fas fa-book-reader"></i> الأساسي
+        </button>
+        <button class="nav-btn stage-md" onclick="showSection('stage-md', this)">
+            <i class="fas fa-graduation-cap"></i> المتوسط
+        </button>
+        <button class="nav-btn stage-hs" onclick="showSection('stage-hs', this)">
+            <i class="fas fa-user-graduate"></i> الثانوي
+        </button>
+        <button class="nav-btn" onclick="showSection('reports', this)">
+            <i class="fas fa-file-invoice-dollar"></i> التقارير
+        </button>
+    </nav>
+
+    <main>
+        <!-- Dashboard -->
+        <section id="dashboard" class="section active">
+            <div class="card" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none;">
+                <h2 style="color: white; border: none;"><i class="fas fa-chart-pie"></i> نظرة عامة على المدرسة</h2>
+                <p style="opacity: 0.95;">اختر أي مرحلة لعرض تفاصيلها الكاملة (الطلاب، الرسوم، المدفوعات)</p>
+            </div>
+
+            <div class="stages-grid">
+                <div class="stage-card kg" onclick="showSection('stage-kg', document.querySelector('.stage-kg'))">
+                    <div class="stage-icon"><i class="fas fa-baby"></i></div>
+                    <h3>الروضة</h3>
+                    <div class="count" id="kg-count">0</div>
+                    <div class="info">طالب مسجل</div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                        <small style="color: var(--text-light);">المحصل: </small>
+                        <strong id="kg-collected" style="color: var(--success);">0</strong>
+                    </div>
+                </div>
+
+                <div class="stage-card pr" onclick="showSection('stage-pr', document.querySelector('.stage-pr'))">
+                    <div class="stage-icon"><i class="fas fa-book-reader"></i></div>
+                    <h3>الأساسي</h3>
+                    <div class="count" id="pr-count">0</div>
+                    <div class="info">طالب مسجل</div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                        <small style="color: var(--text-light);">المحصل: </small>
+                        <strong id="pr-collected" style="color: var(--success);">0</strong>
+                    </div>
+                </div>
+
+                <div class="stage-card md" onclick="showSection('stage-md', document.querySelector('.stage-md'))">
+                    <div class="stage-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>المتوسط</h3>
+                    <div class="count" id="md-count">0</div>
+                    <div class="info">طالب مسجل</div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                        <small style="color: var(--text-light);">المحصل: </small>
+                        <strong id="md-collected" style="color: var(--success);">0</strong>
+                    </div>
+                </div>
+
+                <div class="stage-card hs" onclick="showSection('stage-hs', document.querySelector('.stage-hs'))">
+                    <div class="stage-icon"><i class="fas fa-user-graduate"></i></div>
+                    <h3>الثانوي</h3>
+                    <div class="count" id="hs-count">0</div>
+                    <div class="info">طالب مسجل</div>
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                        <small style="color: var(--text-light);">المحصل: </small>
+                        <strong id="hs-collected" style="color: var(--success);">0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card primary">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3 id="stat-total-students">0</h3>
+                        <p>إجمالي طلاب المدرسة</p>
+                    </div>
+                </div>
+                <div class="stat-card success">
+                    <i class="fas fa-coins"></i>
+                    <div>
+                        <h3 id="stat-total-collected">0</h3>
+                        <p>إجمالي المحصل</p>
+                    </div>
+                </div>
+                <div class="stat-card warning">
+                    <i class="fas fa-hourglass-half"></i>
+                    <div>
+                        <h3 id="stat-total-pending">0</h3>
+                        <p>إجمالي المتبقي</p>
+                    </div>
+                </div>
+                <div class="stat-card danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <h3 id="stat-unpaid">0</h3>
+                        <p>طلاب لم يدفعوا</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kindergarten Section -->
+        <section id="stage-kg" class="section">
+            <div class="stage-header kg">
+                <div>
+                    <h2><i class="fas fa-baby"></i> مرحلة الروضة</h2>
+                    <p>تمهيدي • بستنة 1 • بستنة 2 • تمهيدية</p>
+                </div>
+                <div style="text-align: left;">
+                    <div style="font-size: 2rem; font-weight: 700;" id="kg-header-count">0</div>
+                    <div style="opacity: 0.9;">طالب</div>
+                </div>
+            </div>
+
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('kg', 'students', this)">
+                    <i class="fas fa-child"></i> الطلاب
+                </button>
+                <button class="sub-tab" onclick="showSubSection('kg', 'fees', this)">
+                    <i class="fas fa-money-bill"></i> رسوم الروضة
+                </button>
+                <button class="sub-tab" onclick="showSubSection('kg', 'payments', this)">
+                    <i class="fas fa-hand-holding-usd"></i> المدفوعات
+                </button>
+            </div>
+
+            <!-- KG Students -->
+            <div id="kg-students" class="sub-section active">
+                <div class="card">
+                    <h2><i class="fas fa-user-plus"></i> تسجيل طالب جديد في الروضة</h2>
+                    <div id="kg-student-alert"></div>
+                    <form onsubmit="addStudent(event, 'kg')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الطالب</label>
+                                <input type="text" id="kg-student-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>القسم</label>
+                                <select id="kg-student-class" required>
+                                    <option value="">اختر القسم</option>
+                                    <option value="تمهيدي">تمهيدي</option>
+                                    <option value="بستنة 1">بستنة 1</option>
+                                    <option value="بستنة 2">بستنة 2</option>
+                                    <option value="تمهيدية">تمهيدية</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>عمر الطفل</label>
+                                <input type="number" id="kg-student-age" min="3" max="6" placeholder="مثال: 4">
+                            </div>
+                            <div class="form-group">
+                                <label>هاتف ولي الأمر</label>
+                                <input type="tel" id="kg-student-phone" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            <i class="fas fa-plus"></i> إضافة الطالب
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-list"></i> قائمة طلاب الروضة</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>الاسم</th>
+                                    <th>القسم</th>
+                                    <th>العمر</th>
+                                    <th>الهاتف</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kg-students-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KG Fees -->
+            <div id="kg-fees" class="sub-section">
+                <div class="card">
+                    <h2><i class="fas fa-plus-circle"></i> إضافة رسوم خاصة بالروضة</h2>
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">هذه الرسوم خاصة بمرحلة الروضة فقط</p>
+                    <form onsubmit="addFeeType(event, 'kg')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الرسوم</label>
+                                <input type="text" id="kg-fee-name" required placeholder="مثال: رسوم الفصل الأول">
+                            </div>
+                            <div class="form-group">
+                                <label>المبلغ</label>
+                                <input type="number" id="kg-fee-amount" required min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>الوصف (اختياري)</label>
+                                <input type="text" id="kg-fee-desc">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            <i class="fas fa-save"></i> حفظ
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h2><i class="fas fa-list-ul"></i> رسوم الروضة</h2>
+                    <div id="kg-fees-list"></div>
+                </div>
+            </div>
+
+            <!-- KG Payments -->
+            <div id="kg-payments" class="sub-section">
+                <div class="card">
+                    <h2><i class="fas fa-hand-holding-usd"></i> تسجيل دفعة - الروضة</h2>
+                    <form onsubmit="addPayment(event, 'kg')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>الطالب</label>
+                                <select id="kg-pay-student" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>نوع الرسوم</label>
+                                <select id="kg-pay-fee" required onchange="fillAmount('kg')"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>المبلغ</label>
+                                <input type="number" id="kg-pay-amount" required min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>التاريخ</label>
+                                <input type="date" id="kg-pay-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>ملاحظات</label>
+                                <input type="text" id="kg-pay-notes">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="margin-top: 1.5rem;">
+                            <i class="fas fa-check"></i> تسجيل الدفعة
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> سجل مدفوعات الروضة</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>التاريخ</th>
+                                    <th>الطالب</th>
+                                    <th>القسم</th>
+                                    <th>نوع الرسوم</th>
+                                    <th>المبلغ</th>
+                                    <th>ملاحظات</th>
+                                    <th>حذف</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kg-payments-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Primary Section -->
+        <section id="stage-pr" class="section">
+            <div class="stage-header pr">
+                <div>
+                    <h2><i class="fas fa-book-reader"></i> المرحلة الأساسية</h2>
+                    <p>الصف الأول • الثاني • الثالث • الرابع • الخامس • السادس</p>
+                </div>
+                <div style="text-align: left;">
+                    <div style="font-size: 2rem; font-weight: 700;" id="pr-header-count">0</div>
+                    <div style="opacity: 0.9;">طالب</div>
+                </div>
+            </div>
+
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('pr', 'students', this)">
+                    <i class="fas fa-child"></i> الطلاب
+                </button>
+                <button class="sub-tab" onclick="showSubSection('pr', 'fees', this)">
+                    <i class="fas fa-money-bill"></i> رسوم الأساسي
+                </button>
+                <button class="sub-tab" onclick="showSubSection('pr', 'payments', this)">
+                    <i class="fas fa-hand-holding-usd"></i> المدفوعات
+                </button>
+            </div>
+
+            <div id="pr-students" class="sub-section active">
+                <div class="card">
+                    <h2><i class="fas fa-user-plus"></i> تسجيل طالب جديد - الأساسي</h2>
+                    <div id="pr-student-alert"></div>
+                    <form onsubmit="addStudent(event, 'pr')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الطالب</label>
+                                <input type="text" id="pr-student-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>الصف</label>
+                                <select id="pr-student-class" required>
+                                    <option value="">اختر الصف</option>
+                                    <option value="الأول">الصف الأول</option>
+                                    <option value="الثاني">الصف الثاني</option>
+                                    <option value="الثالث">الصف الثالث</option>
+                                    <option value="الرابع">الصف الرابع</option>
+                                    <option value="الخامس">الصف الخامس</option>
+                                    <option value="السادس">الصف السادس</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>الشعبة</label>
+                                <select id="pr-student-section">
+                                    <option value="أ">أ</option>
+                                    <option value="ب">ب</option>
+                                    <option value="ج">ج</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>هاتف ولي الأمر</label>
+                                <input type="tel" id="pr-student-phone" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            <i class="fas fa-plus"></i> إضافة الطالب
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-list"></i> قائمة طلاب الأساسي</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>الاسم</th>
+                                    <th>الصف</th>
+                                    <th>الشعبة</th>
+                                    <th>الهاتف</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pr-students-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pr-fees" class="sub-section">
+                <div class="card">
+                    <h2><i class="fas fa-plus-circle"></i> إضافة رسوم - الأساسي</h2>
+                    <form onsubmit="addFeeType(event, 'pr')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الرسوم</label>
+                                <input type="text" id="pr-fee-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>المبلغ</label>
+                                <input type="number" id="pr-fee-amount" required min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>الوصف</label>
+                                <input type="text" id="pr-fee-desc">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            <i class="fas fa-save"></i> حفظ
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h2><i class="fas fa-list-ul"></i> رسوم الأساسي</h2>
+                    <div id="pr-fees-list"></div>
+                </div>
+            </div>
+
+            <div id="pr-payments" class="sub-section">
+                <div class="card">
+                    <h2><i class="fas fa-hand-holding-usd"></i> تسجيل دفعة - الأساسي</h2>
+                    <form onsubmit="addPayment(event, 'pr')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>الطالب</label>
+                                <select id="pr-pay-student" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>نوع الرسوم</label>
+                                <select id="pr-pay-fee" required onchange="fillAmount('pr')"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>المبلغ</label>
+                                <input type="number" id="pr-pay-amount" required min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>التاريخ</label>
+                                <input type="date" id="pr-pay-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>ملاحظات</label>
+                                <input type="text" id="pr-pay-notes">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="margin-top: 1.5rem;">
+                            <i class="fas fa-check"></i> تسجيل الدفعة
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> سجل مدفوعات الأساسي</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>التاريخ</th>
+                                    <th>الطالب</th>
+                                    <th>الصف</th>
+                                    <th>نوع الرسوم</th>
+                                    <th>المبلغ</th>
+                                    <th>ملاحظات</th>
+                                    <th>حذف</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pr-payments-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Middle Section -->
+        <section id="stage-md" class="section">
+            <div class="stage-header md">
+                <div>
+                    <h2><i class="fas fa-graduation-cap"></i> المرحلة المتوسطة</h2>
+                    <p>السابع • الثامن • التاسع</p>
+                </div>
+                <div style="text-align: left;">
+                    <div style="font-size: 2rem; font-weight: 700;" id="md-header-count">0</div>
+                    <div style="opacity: 0.9;">طالب</div>
+                </div>
+            </div>
+
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('md', 'students', this)">
+                    <i class="fas fa-child"></i> الطلاب
+                </button>
+                <button class="sub-tab" onclick="showSubSection('md', 'fees', this)">
+                    <i class="fas fa-money-bill"></i> رسوم المتوسط
+                </button>
+                <button class="sub-tab" onclick="showSubSection('md', 'payments', this)">
+                    <i class="fas fa-hand-holding-usd"></i> المدفوعات
+                </button>
+            </div>
+
+            <div id="md-students" class="sub-section active">
+                <div class="card">
+                    <h2><i class="fas fa-user-plus"></i> تسجيل طالب جديد - المتوسط</h2>
+                    <div id="md-student-alert"></div>
+                    <form onsubmit="addStudent(event, 'md')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الطالب</label>
+                                <input type="text" id="md-student-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>الصف</label>
+                                <select id="md-student-class" required>
+                                    <option value="">اختر الصف</option>
+                                    <option value="السابع">الصف الاول متوسط</option>
+                                    <option value="الثامن">الصف الثاني متوسط</option>
+                                    <option value="التاسع">الصف الثالث متوسط</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>الشعبة</label>
+                                <select id="md-student-section">
+                                    <option value="أ">أ</option>
+                                    <option value="ب">ب</option>
+                                    <option value="ج">ج</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>هاتف ولي الأمر</label>
+                                <input type="tel" id="md-student-phone" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            <i class="fas fa-plus"></i> إضافة الطالب
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-list"></i> قائمة طلاب المتوسط</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>الاسم</th>
+                                    <th>الصف</th>
+                                    <th>الشعبة</th>
+                                    <th>الهاتف</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="md-students-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="md-fees" class="sub-section">
+                <div class="card">
+                    <h2><i class="fas fa-plus-circle"></i> إضافة رسوم - المتوسط</h2>
+                    <form onsubmit="addFeeType(event, 'md')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الرسوم</label>
+                                <input type="text" id="md-fee-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>المبلغ</label>
+                                <input type="number" id="md-fee-amount" required min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>الوصف</label>
+                                <input type="text" id="md-fee-desc">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            <i class="fas fa-save"></i> حفظ
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h2><i class="fas fa-list-ul"></i> رسوم المتوسط</h2>
+                    <div id="md-fees-list"></div>
+                </div>
+            </div>
+
+            <div id="md-payments" class="sub-section">
+                <div class="card">
+                    <h2><i class="fas fa-hand-holding-usd"></i> تسجيل دفعة - المتوسط</h2>
+                    <form onsubmit="addPayment(event, 'md')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>الطالب</label>
+                                <select id="md-pay-student" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>نوع الرسوم</label>
+                                <select id="md-pay-fee" required onchange="fillAmount('md')"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>المبلغ</label>
+                                <input type="number" id="md-pay-amount" required min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>التاريخ</label>
+                                <input type="date" id="md-pay-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>ملاحظات</label>
+                                <input type="text" id="md-pay-notes">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="margin-top: 1.5rem;">
+                            <i class="fas fa-check"></i> تسجيل الدفعة
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> سجل مدفوعات المتوسط</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>التاريخ</th>
+                                    <th>الطالب</th>
+                                    <th>الصف</th>
+                                    <th>نوع الرسوم</th>
+                                    <th>المبلغ</th>
+                                    <th>ملاحظات</th>
+                                    <th>حذف</th>
+                                </tr>
+                            </thead>
+                            <tbody id="md-payments-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- High School Section -->
+        <section id="stage-hs" class="section">
+            <div class="stage-header hs">
+                <div>
+                    <h2><i class="fas fa-user-graduate"></i> المرحلة الثانوية</h2>
+                    <p>العاشر • الحادي عشر • الثاني عشر</p>
+                </div>
+                <div style="text-align: left;">
+                    <div style="font-size: 2rem; font-weight: 700;" id="hs-header-count">0</div>
+                    <div style="opacity: 0.9;">طالب</div>
+                </div>
+            </div>
+
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="showSubSection('hs', 'students', this)">
+                    <i class="fas fa-child"></i> الطلاب
+                </button>
+                <button class="sub-tab" onclick="showSubSection('hs', 'fees', this)">
+                    <i class="fas fa-money-bill"></i> رسوم الثانوي
+                </button>
+                <button class="sub-tab" onclick="showSubSection('hs', 'payments', this)">
+                    <i class="fas fa-hand-holding-usd"></i> المدفوعات
+                </button>
+            </div>
+
+            <div id="hs-students" class="sub-section active">
+                <div class="card">
+                    <h2><i class="fas fa-user-plus"></i> تسجيل طالب جديد - الثانوي</h2>
+                    <div id="hs-student-alert"></div>
+                    <form onsubmit="addStudent(event, 'hs')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الطالب</label>
+                                <input type="text" id="hs-student-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>الصف</label>
+                                <select id="hs-student-class" required>
+                                    <option value="">اختر الصف</option>
+                                    <option value="العاشر">اولى ثانوي </option>
+                                    <option value="الحادي عشر">  ثانيه ثانوي</option>
+                                    <option value="الثاني عشر">ثالثه ثانوي</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>الفرع</label>
+                                <select id="hs-student-section">
+                                    <option value="علمي">علمي</option>
+                                    <option value="أدبي">أدبي</option>
+                                    <option value="تجاري"></option>
+                                    <option value="صناعي"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>هاتف ولي الأمر</label>
+                                <input type="tel" id="hs-student-phone" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            <i class="fas fa-plus"></i> إضافة الطالب
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-list"></i> قائمة طلاب الثانوي</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>الاسم</th>
+                                    <th>الصف</th>
+                                    <th>الفرع</th>
+                                    <th>الهاتف</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hs-students-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="hs-fees" class="sub-section">
+                <div class="card">
+                    <h2><i class="fas fa-plus-circle"></i> إضافة رسوم - الثانوي</h2>
+                    <form onsubmit="addFeeType(event, 'hs')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>اسم الرسوم</label>
+                                <input type="text" id="hs-fee-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>المبلغ</label>
+                                <input type="number" id="hs-fee-amount" required min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>الوصف</label>
+                                <input type="text" id="hs-fee-desc">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            <i class="fas fa-save"></i> حفظ
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h2><i class="fas fa-list-ul"></i> رسوم الثانوي</h2>
+                    <div id="hs-fees-list"></div>
+                </div>
+            </div>
+
+            <div id="hs-payments" class="sub-section">
+                <div class="card">
+                    <h2><i class="fas fa-hand-holding-usd"></i> تسجيل دفعة - الثانوي</h2>
+                    <form onsubmit="addPayment(event, 'hs')">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>الطالب</label>
+                                <select id="hs-pay-student" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>نوع الرسوم</label>
+                                <select id="hs-pay-fee" required onchange="fillAmount('hs')"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>المبلغ</label>
+                                <input type="number" id="hs-pay-amount" required min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>التاريخ</label>
+                                <input type="date" id="hs-pay-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>ملاحظات</label>
+                                <input type="text" id="hs-pay-notes">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" style="margin-top: 1.5rem;">
+                            <i class="fas fa-check"></i> تسجيل الدفعة
+                        </button>
+                    </form>
+                </div>
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> سجل مدفوعات الثانوي</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>التاريخ</th>
+                                    <th>الطالب</th>
+                                    <th>الصف</th>
+                                    <th>نوع الرسوم</th>
+                                    <th>المبلغ</th>
+                                    <th>ملاحظات</th>
+                                    <th>حذف</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hs-payments-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" class="section">
+            <div class="card">
+                <h2><i class="fas fa-file-invoice-dollar"></i> تقرير شامل لكل المراحل</h2>
+                <p style="color: var(--text-light); margin-bottom: 1rem;">تقرير مفصل يوضح حالة كل طالب في جميع المراحل</p>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <select id="report-filter-stage" onchange="renderReport()" style="padding: 0.6rem 1rem; border: 1px solid #d1d5db; border-radius: 8px;">
+                        <option value="all">جميع المراحل</option>
+                        <option value="kg">الروضة</option>
+                        <option value="pr">الأساسي</option>
+                        <option value="md">المتوسط</option>
+                        <option value="hs">الثانوي</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="window.print()">
+                        <i class="fas fa-print"></i> طباعة
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>المرحلة</th>
+                                <th>الطالب</th>
+                                <th>الصف/القسم</th>
+                                <th>المستحق</th>
+                                <th>المدفوع</th>
+                                <th>المتبقي</th>
+                                <th>الحالة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="report-table"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Student Details Modal -->
+<div id="studentModal" class="modal-overlay">
+    <div class="modal">
+        <h3><i class="fas fa-user"></i> تفاصيل الطالب وحساباته</h3>
+        <div id="modalContent"></div>
+        <div class="modal-actions">
+            <button class="btn" style="background: #e5e7eb;" onclick="closeModal()">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ==================== DATA ====================
+    const STAGES = {
+        kg: { name: 'الروضة', icon: 'baby', color: 'pink' },
+        pr: { name: 'الأساسي', icon: 'book-reader', color: 'blue' },
+        md: { name: 'المتوسط', icon: 'graduation-cap', color: 'green' },
+        hs: { name: 'الثانوي', icon: 'user-graduate', color: 'yellow' }
+    };
+
+    let data = JSON.parse(localStorage.getItem('ses_full_data')) || {
+        director: { username: 'admin', password: '123456' },
+        students: { kg: [], pr: [], md: [], hs: [] },
+        feeTypes: { kg: [], pr: [], md: [], hs: [] },
+        payments: { kg: [], pr: [], md: [], hs: [] }
+    };
+
+    function saveData() {
+        localStorage.setItem('ses_full_data', JSON.stringify(data));
+    }
+
+    // ==================== LOGIN ====================
+    function loginDirector(e) {
+        e.preventDefault();
+        const u = document.getElementById('loginUsername').value;
+        const p = document.getElementById('loginPassword').value;
+        if (u === data.director.username && p === data.director.password) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            document.getElementById('loginPassword').value = '';
+            refreshAll();
+        } else {
+            alert('❌ بيانات الدخول غير صحيحة!');
+        }
+    }
+
+    function logout() {
+        if (confirm('هل تريد تسجيل الخروج؟')) {
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+        }
+    }
+
+    // ==================== NAVIGATION ====================
+    function showSection(id, btn) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if (btn) btn.classList.add('active');
+        refreshAll();
+    }
+
+    function showSubSection(stage, sub, btn) {
+        // Hide all sub-sections in this stage
+        document.querySelectorAll(`#stage-${stage} .sub-section`).forEach(s => s.classList.remove('active'));
+        document.querySelectorAll(`#stage-${stage} .sub-tab`).forEach(b => b.classList.remove('active'));
+        document.getElementById(`${stage}-${sub}`).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // ==================== STUDENTS ====================
+    function addStudent(e, stage) {
+        e.preventDefault();
+        const name = document.getElementById(`${stage}-student-name`).value;
+        const cls = document.getElementById(`${stage}-student-class`).value;
+        const phone = document.getElementById(`${stage}-student-phone`).value;
+        
+        const student = {
+            id: Date.now(),
+            name: name,
+            class: cls,
+            phone: phone,
+            createdAt: new Date().toISOString()
+        };
+
+        // Extra fields based on stage
+        if (stage === 'kg') {
+            student.age = document.getElementById('kg-student-age').value;
+        } else {
+            student.section = document.getElementById(`${stage}-student-section`).value;
+        }
+
+        data.students[stage].push(student);
+        saveData();
+        e.target.reset();
+        refreshAll();
+
+        const alertDiv = document.getElementById(`${stage}-student-alert`);
+        alertDiv.innerHTML = `<div class="alert alert-success"><i class="fas fa-check-circle"></i> تم إضافة الطالب بنجاح إلى ${STAGES[stage].name}</div>`;
+        setTimeout(() => alertDiv.innerHTML = '', 3000);
+    }
+
+    function deleteStudent(stage, id) {
+        if (!confirm('حذف الطالب وجميع مدفوعاته؟')) return;
+        data.students[stage] = data.students[stage].filter(s => s.id !== id);
+        data.payments[stage] = data.payments[stage].filter(p => p.studentId !== id);
+        saveData();
+        refreshAll();
+    }
+
+    function showStudentDetails(stage, id) {
+        const student = data.students[stage].find(s => s.id === id);
+        if (!student) return;
+
+        const totalDue = data.feeTypes[stage].reduce((sum, f) => sum + parseFloat(f.amount), 0);
+        const studentPayments = data.payments[stage].filter(p => p.studentId === id);
+        const totalPaid = studentPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const remaining = Math.max(0, totalDue - totalPaid);
+
+        let classInfo = student.class;
+        if (stage === 'kg') classInfo += student.age ? ` (العمر: ${student.age})` : '';
+        else if (student.section) classInfo += ` - ${student.section}`;
+
+        let html = `
+            <div style="background: #f9fafb; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
+                <h4 style="color: var(--primary);">${student.name}</h4>
+                <p>${STAGES[stage].name} | ${classInfo} | هاتف: ${student.phone}</p>
+            </div>
+        `;
+
+        if (data.feeTypes[stage].length === 0) {
+            html += '<p style="color: var(--text-light); text-align: center; padding: 1rem;">لم يتم تحديد رسوم لهذه المرحلة</p>';
+        } else {
+            html += '<table style="width: 100%;"><thead><tr><th>نوع الرسوم</th><th>المستحق</th><th>المدفوع</th><th>المتبقي</th></tr></thead><tbody>';
+            data.feeTypes[stage].forEach(fee => {
+                const paid = studentPayments.filter(p => p.feeTypeId === fee.id).reduce((sum, p) => sum + parseFloat(p.amount), 0);
+                const due = parseFloat(fee.amount);
+                const rem = Math.max(0, due - paid);
+                html += `<tr>
+                    <td>${fee.name}</td>
+                    <td>${due.toLocaleString()}</td>
+                    <td style="color: var(--success);">${paid.toLocaleString()}</td>
+                    <td style="color: ${rem > 0 ? 'var(--danger)' : 'var(--success)'};">${rem.toLocaleString()}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+        }
+
+        html += `
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #eff6ff; border-radius: 10px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span>إجمالي المستحق:</span> <strong>${totalDue.toLocaleString()}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span>إجمالي المدفوع:</span> <strong style="color: var(--success);">${totalPaid.toLocaleString()}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 1.1rem;">
+                    <span>المتبقي:</span> <strong style="color: ${remaining > 0 ? 'var(--danger)' : 'var(--success)'};">${remaining.toLocaleString()}</strong>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('modalContent').innerHTML = html;
+        document.getElementById('studentModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('studentModal').classList.remove('active');
+    }
+
+    function renderStudents(stage) {
+        const tbody = document.getElementById(`${stage}-students-table`);
+        const students = data.students[stage];
+
+        if (students.length === 0) {
+            const cols = stage === 'kg' ? 7 : 7;
+            tbody.innerHTML = `<tr><td colspan="${cols}" style="text-align: center; color: var(--text-light); padding: 2rem;">لا يوجد طلاب مسجلين في ${STAGES[stage].name}</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = students.map((s, i) => {
+            const totalDue = data.feeTypes[stage].reduce((sum, f) => sum + parseFloat(f.amount), 0);
+            const paid = data.payments[stage].filter(p => p.studentId === s.id).reduce((sum, p) => sum + parseFloat(p.amount), 0);
+            
+            let status;
+            if (totalDue === 0) status = '<span class="badge badge-yellow">لم تحدد رسوم</span>';
+            else if (paid >= totalDue) status = '<span class="badge badge-green">مسدد</span>';
+            else if (paid > 0) status = '<span class="badge badge-yellow">جزئي</span>';
+            else status = '<span class="badge badge-red">لم يدفع</span>';
+
+            if (stage === 'kg') {
+                return `<tr>
+                    <td>${i + 1}</td>
+                    <td><strong>${s.name}</strong></td>
+                    <td><span class="badge badge-pink">${s.class}</span></td>
+                    <td>${s.age || '-'}</td>
+                    <td>${s.phone}</td>
+                    <td>${status}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="showStudentDetails('${stage}', ${s.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteStudent('${stage}', ${s.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            } else {
+                return `<tr>
+                    <td>${i + 1}</td>
+                    <td><strong>${s.name}</strong></td>
+                    <td>${s.class}</td>
+                    <td>${s.section || '-'}</td>
+                    <td>${s.phone}</td>
+                    <td>${status}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="showStudentDetails('${stage}', ${s.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteStudent('${stage}', ${s.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            }
+        }).join('');
+    }
+
+    // ==================== FEE TYPES ====================
+    function addFeeType(e, stage) {
+        e.preventDefault();
+        const fee = {
+            id: Date.now(),
+            name: document.getElementById(`${stage}-fee-name`).value,
+            amount: parseFloat(document.getElementById(`${stage}-fee-amount`).value),
+            description: document.getElementById(`${stage}-fee-desc`).value
+        };
+        data.feeTypes[stage].push(fee);
+        saveData();
+        e.target.reset();
+        refreshAll();
+    }
+
+    function deleteFeeType(stage, id) {
+        if (!confirm('حذف نوع الرسوم ومدفوعاته؟')) return;
+        data.feeTypes[stage] = data.feeTypes[stage].filter(f => f.id !== id);
+        data.payments[stage] = data.payments[stage].filter(p => p.feeTypeId !== id);
+        saveData();
+        refreshAll();
+    }
+
+    function renderFeeTypes(stage) {
+        const container = document.getElementById(`${stage}-fees-list`);
+        const fees = data.feeTypes[stage];
+        if (fees.length === 0) {
+            container.innerHTML = `<p style="text-align: center; color: var(--text-light); padding: 2rem;">لم يتم إضافة رسوم لـ ${STAGES[stage].name} بعد</p>`;
+            return;
+        }
+        container.innerHTML = fees.map(f => `
+            <div class="fee-type-item">
+                <div>
+                    <h4>${f.name}</h4>
+                    ${f.description ? `<small style="color: var(--text-light);">${f.description}</small>` : ''}
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span class="amount">${f.amount.toLocaleString()}</span>
+                    <button class="btn btn-danger" onclick="deleteFeeType('${stage}', ${f.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ==================== PAYMENTS ====================
+    function addPayment(e, stage) {
+        e.preventDefault();
+        const payment = {
+            id: Date.now(),
+            studentId: parseInt(document.getElementById(`${stage}-pay-student`).value),
+            feeTypeId: parseInt(document.getElementById(`${stage}-pay-fee`).value),
+            amount: parseFloat(document.getElementById(`${stage}-pay-amount`).value),
+            date: document.getElementById(`${stage}-pay-date`).value,
+            notes: document.getElementById(`${stage}-pay-notes`).value
+        };
+        data.payments[stage].push(payment);
+        saveData();
+        e.target.reset();
+        refreshAll();
+        alert('✅ تم تسجيل الدفعة بنجاح');
+    }
+
+    function fillAmount(stage) {
+        const feeTypeId = parseInt(document.getElementById(`${stage}-pay-fee`).value);
+        const fee = data.feeTypes[stage].find(f => f.id === feeTypeId);
+        if (fee) document.getElementById(`${stage}-pay-amount`).value = fee.amount;
+    }
+
+    function deletePayment(stage, id) {
+        if (!confirm('حذف هذه الدفعة؟')) return;
+        data.payments[stage] = data.payments[stage].filter(p => p.id !== id);
+        saveData();
+        refreshAll();
+    }
+
+    function renderPayments(stage) {
+        // Populate dropdowns
+        const studentSelect = document.getElementById(`${stage}-pay-student`);
+        const feeSelect = document.getElementById(`${stage}-pay-fee`);
+        
+        studentSelect.innerHTML = '<option value="">-- اختر طالب --</option>' +
+            data.students[stage].map(s => {
+                let label = s.name;
+                if (stage === 'kg') label += ` - ${s.class}`;
+                else label += ` - ${s.class}${s.section ? ' ' + s.section : ''}`;
+                return `<option value="${s.id}">${label}</option>`;
+            }).join('');
+        
+        feeSelect.innerHTML = '<option value="">-- اختر نوع الرسوم --</option>' +
+            data.feeTypes[stage].map(f => `<option value="${f.id}">${f.name} (${f.amount.toLocaleString()})</option>`).join('');
+
+        document.getElementById(`${stage}-pay-date`).value = new Date().toISOString().split('T')[0];
+
+        // Render table
+        const tbody = document.getElementById(`${stage}-payments-table`);
+        const payments = data.payments[stage];
+        if (payments.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-light); padding: 2rem;">لا توجد مدفوعات</td></tr>';
+            return;
+        }
+        tbody.innerHTML = payments.slice().reverse().map(p => {
+            const student = data.students[stage].find(s => s.id === p.studentId);
+            const fee = data.feeTypes[stage].find(f => f.id === p.feeTypeId);
+            const classInfo = student ? (stage === 'kg' ? student.class : (student.class + (student.section ? ' ' + student.section : ''))) : '-';
+            return `<tr>
+                <td>${p.date}</td>
+                <td>${student ? student.name : 'محذوف'}</td>
+                <td>${classInfo}</td>
+                <td>${fee ? fee.name : 'محذوف'}</td>
+                <td><strong style="color: var(--success);">${parseFloat(p.amount).toLocaleString()}</strong></td>
+                <td>${p.notes || '-'}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="deletePayment('${stage}', ${p.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>`;
+        }).join('');
+    }
+
+    // ==================== DASHBOARD ====================
+    function updateDashboard() {
+        let totalStudents = 0, totalCollected = 0, totalPending = 0, totalUnpaid = 0;
+
+        Object.keys(STAGES).forEach(stage => {
+            const count = data.students[stage].length;
+            const collected = data.payments[stage].reduce((sum, p) => sum + parseFloat(p.amount), 0);
+            
+            document.getElementById(`${stage}-count`).innerText = count;
+            document.getElementById(`${stage}-collected`).innerText = collected.toLocaleString();
+            document.getElementById(`${stage}-header-count`).innerText = count;
+
+            totalStudents += count;
+            totalCollected += collected;
+
+            const due = count * data.feeTypes[stage].reduce((sum, f) => sum + parseFloat(f.amount), 0);
+            totalPending += Math.max(0, due - collected);
+
+            data.students[stage].forEach(s => {
+                const paid = data.payments[stage].filter(p => p.studentId === s.id).reduce((sum, p) => sum + parseFloat(p.amount), 0);
+                if (paid === 0 && data.feeTypes[stage].length > 0) totalUnpaid++;
+            });
+        });
+
+        document.getElementById('stat-total-students').innerText = totalStudents;
+        document.getElementById('stat-total-collected').innerText = totalCollected.toLocaleString();
+        document.getElementById('stat-total-pending').innerText = totalPending.toLocaleString();
+        document.getElementById('stat-unpaid').innerText = totalUnpaid;
+    }
+
+    // ==================== REPORTS ====================
+    function renderReport() {
+        const filter = document.getElementById('report-filter-stage').value;
+        const tbody = document.getElementById('report-table');
+        const stages = filter === 'all' ? Object.keys(STAGES) : [filter];
+        
+        let rows = [];
+        stages.forEach(stage => {
+            data.students[stage].forEach(s => {
+                const totalDue = data.feeTypes[stage].reduce((sum, f) => sum + parseFloat(f.amount), 0);
+                const paid = data.payments[stage].filter(p => p.studentId === s.id).reduce((sum, p) => sum + parseFloat(p.amount), 0);
+                const remaining = Math.max(0, totalDue - paid);
+                
+                let status;
+                if (totalDue === 0) status = '<span class="badge badge-yellow">-</span>';
+                else if (paid >= totalDue) status = '<span class="badge badge-green">مسدد</span>';
+                else if (paid > 0) status = '<span class="badge badge-yellow">جزئي</span>';
+                else status = '<span class="badge badge-red">لم يدفع</span>';
+
+                let classInfo = s.class;
+                if (stage === 'kg' && s.age) classInfo += ` (${s.age} سنوات)`;
+                else if (s.section) classInfo += ` - ${s.section}`;
+
+                const stageBadge = {
+                    kg: 'badge-pink',
+                    pr: 'badge-blue',
+                    md: 'badge-green',
+                    hs: 'badge-yellow'
+                }[stage];
+
+                rows.push(`<tr>
+                    <td><span class="badge ${stageBadge}">${STAGES[stage].name}</span></td>
+                    <td><strong>${s.name}</strong></td>
+                    <td>${classInfo}</td>
+                    <td>${totalDue.toLocaleString()}</td>
+                    <td style="color: var(--success);">${paid.toLocaleString()}</td>
+                    <td style="color: ${remaining > 0 ? 'var(--danger)' : 'var(--success)'};">${remaining.toLocaleString()}</td>
+                    <td>${status}</td>
+                </tr>`);
+            });
+        });
+
+        if (rows.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-light); padding: 2rem;">لا يوجد طلاب</td></tr>';
+        } else {
+            tbody.innerHTML = rows.join('');
+        }
+    }
+
+    // ==================== REFRESH ====================
+    function refreshAll() {
+        Object.keys(STAGES).forEach(stage => {
+            renderStudents(stage);
+            renderFeeTypes(stage);
+            renderPayments(stage);
+        });
+        updateDashboard();
+        renderReport();
+    }
+</script>
+
+</body>
+</html>
