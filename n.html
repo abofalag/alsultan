@@ -1,1767 +1,1080 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مدرسة السلطان عيسى الساير | النظام المتكامل</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #1e3a8a;
-            --secondary: #3b82f6;
-            --accent: #f59e0b;
-            --bg: #f3f4f6;
-            --card-bg: #ffffff;
-            --text: #1f2937;
-            --text-light: #6b7280;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --kindergarten: #ec4899;
-            --primary-stage: #3b82f6;
-            --middle-stage: #10b981;
-            --high-stage: #f59e0b;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مدرسة السلطان عيسى الساير | نظام تسجيل الطلاب</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --royal: #1a3a6c;
+    --royal-dark: #0f2647;
+    --royal-light: #2d5499;
+    --gold: #d4af37;
+    --gold-light: #f5d77a;  
+    --gold-dark: #a8861f;
+    --cream: #faf6ee;
+    --bg: #f5f1e8;
+    --panel: #ffffff;
+    --ink: #1a2332;
+    --muted: #6b7a8f;
+    --line: rgba(26, 58, 108, .12);
+    --line-gold: rgba(212, 175, 55, .3);
+    --success: #2d8659;
+    --danger: #c94545;
+    --warning: #d4a017;
+    --ease: cubic-bezier(.22, .9, .24, 1);
+    
+    /* Stage Colors */
+    --stage-kg: #e8927c;
+    --stage-primary: #7cb5e8;
+    --stage-middle: #a87ce8;
+    --stage-high: #7ce8a8;
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, .04) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(26, 58, 108, .04) 0%, transparent 50%);
+}
+::selection { background: var(--gold); color: var(--royal-dark); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--royal); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+button { font-family: inherit; cursor: pointer; border: none; }
+input, select, textarea { font-family: inherit; }
+a { text-decoration: none; color: inherit; }
 
-        /* Login */
-        .login-screen {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 20px;
-        }
+/* ══════ Login Screen ══════ */
+#loginScreen {
+    position: fixed; inset: 0; background: linear-gradient(135deg, var(--royal-dark), var(--royal));
+    z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.login-box {
+    background: var(--panel); padding: 40px; border-radius: 20px; width: 100%; max-width: 400px;
+    text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); border: 2px solid var(--gold);
+}
+.login-box h2 { color: var(--royal); margin-bottom: 8px; font-family: 'Amiri', serif; }
+.login-box p { color: var(--muted); margin-bottom: 24px; font-size: 14px; }
+.login-box input {
+    width: 100%; padding: 14px; border: 1px solid var(--line); border-radius: 10px;
+    margin-bottom: 16px; font-size: 16px; text-align: center;
+}
+.login-box input:focus { outline: none; border-color: var(--royal); box-shadow: 0 0 0 3px rgba(26, 58, 108, .1); }
+.login-box button {
+    width: 100%; padding: 14px; background: var(--royal); color: white; border-radius: 10px;
+    font-size: 16px; font-weight: 700; transition: all .3s;
+}
+.login-box button:hover { background: var(--gold); color: var(--royal-dark); }
+.login-hint { margin-top: 20px; font-size: 12px; color: var(--muted); background: var(--bg); padding: 10px; border-radius: 8px; }
 
-        .login-box {
-            background: white;
-            padding: 3rem 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-        }
+/* ══════ Header ══════ */
+.header {
+    background: linear-gradient(135deg, var(--royal-dark) 0%, var(--royal) 50%, var(--royal-light) 100%);
+    color: white; padding: 28px 0; position: relative; overflow: hidden; border-bottom: 4px solid var(--gold);
+}
+.header::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(45deg, transparent 0, transparent 30px, rgba(212, 175, 55, .03) 30px, rgba(212, 175, 55, .03) 60px);
+    pointer-events: none;
+}
+.header::after {
+    content: ''; position: absolute; bottom: 0; right: 0; left: 0; height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.container { max-width: 1400px; margin-inline: auto; padding-inline: 24px; position: relative; z-index: 2; }
+.header-wrap { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.logo-box {
+    display: flex; align-items: center; gap: 18px; background: rgba(255, 255, 255, .08);
+    padding: 12px 22px; border-radius: 16px; border: 1px solid rgba(212, 175, 55, .3); backdrop-filter: blur(10px);
+}
+.logo-svg { width: 70px; height: 70px; flex: none; }
+.logo-text h1 { font-family: 'Amiri', serif; font-size: 26px; font-weight: 700; color: var(--gold-light); line-height: 1.2; margin-bottom: 2px; }
+.logo-text p { font-size: 13px; color: rgba(255, 255, 255, .75); letter-spacing: 1px; }
+.header-actions { margin-inline-start: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+.btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 10px;
+    font-weight: 600; font-size: 14px; transition: all .3s var(--ease); white-space: nowrap;
+}
+.btn-primary { background: var(--gold); color: var(--royal-dark); box-shadow: 0 4px 14px rgba(212, 175, 55, .4); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212, 175, 55, .6); background: var(--gold-light); }
+.btn-ghost { background: rgba(255, 255, 255, .1); color: white; border: 1px solid rgba(255, 255, 255, .25); }
+.btn-ghost:hover { background: rgba(255, 255, 255, .2); border-color: var(--gold); }
+.btn-danger { background: var(--danger); color: white; }
+.btn-success { background: var(--success); color: white; }
+.btn-sm { padding: 8px 14px; font-size: 13px; }
 
-        .login-box .logo-icon { font-size: 4rem; color: var(--accent); margin-bottom: 1rem; }
-        .login-box h2 { color: var(--primary); margin-bottom: 0.5rem; }
-        .login-box p { color: var(--text-light); margin-bottom: 2rem; }
-        .login-box input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        .login-box input:focus { outline: none; border-color: var(--secondary); }
-        .login-box button {
-            width: 100%;
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .login-hint {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: #fef3c7;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: #92400e;
-        }
+/* ══════ Stats Section ══════ */
+.stats { padding: 40px 0 20px; }
+.stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+.stat-card {
+    background: var(--panel); padding: 24px; border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(26, 58, 108, .08); border: 1px solid var(--line);
+    position: relative; overflow: hidden; transition: all .3s var(--ease);
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(26, 58, 108, .15); }
+.stat-card::before {
+    content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px;
+    background: var(--accent, var(--royal)); opacity: .08; border-radius: 50%; transform: translate(30%, -30%);
+}
+.stat-card .icon {
+    width: 46px; height: 46px; display: grid; place-items: center;
+    background: var(--accent, var(--royal)); color: white; border-radius: 12px; font-size: 22px; margin-bottom: 14px;
+}
+.stat-card.total { --accent: var(--royal); }
+.stat-card.kg { --accent: var(--stage-kg); }
+.stat-card.primary { --accent: var(--stage-primary); }
+.stat-card.middle { --accent: var(--stage-middle); }
+.stat-card.high { --accent: var(--stage-high); }
+.stat-card .num { font-size: 32px; font-weight: 800; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+.stat-card .label { font-size: 13px; color: var(--muted); font-weight: 500; }
 
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1.5rem 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
+/* ══════ Tabs ══════ */
+.tabs-wrap {
+    background: var(--panel); border-radius: 16px; padding: 14px; margin: 24px 0;
+    box-shadow: 0 2px 12px rgba(26, 58, 108, .06); border: 1px solid var(--line);
+}
+.tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+    padding: 12px 22px; background: transparent; border-radius: 10px; font-weight: 600;
+    font-size: 14px; color: var(--muted); white-space: nowrap; transition: all .3s var(--ease);
+    display: flex; align-items: center; gap: 8px;
+}
+.tab .badge { background: var(--line); color: var(--muted); padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.tab.active { background: var(--royal); color: white; }
+.tab.active .badge { background: var(--gold); color: var(--royal-dark); }
+.tab:hover:not(.active) { background: var(--bg); color: var(--ink); }
 
-        .logo { display: flex; align-items: center; gap: 15px; }
-        .logo i { font-size: 2.5rem; color: var(--accent); }
-        .logo h1 { font-size: 1.5rem; }
-        .logo p { font-size: 0.9rem; opacity: 0.9; }
+/* ══════ Search & Controls ══════ */
+.controls {
+    background: var(--panel); padding: 18px; border-radius: 16px; margin-bottom: 20px;
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+    box-shadow: 0 2px 12px rgba(26, 58, 108, .06); border: 1px solid var(--line);
+}
+.search-box { flex: 1; min-width: 240px; position: relative; }
+.search-box::before {
+    content: '🔍'; position: absolute; right: 14px; top: 50%;
+    transform: translateY(-50%); opacity: .5; pointer-events: none;
+}
+.search-box input {
+    width: 100%; padding: 12px 44px 12px 16px; border: 1px solid var(--line);
+    border-radius: 10px; background: var(--bg); font-size: 14px; transition: all .3s;
+}
+.search-box input:focus {
+    outline: none; border-color: var(--royal); background: white; box-shadow: 0 0 0 3px rgba(26, 58, 108, .1);
+}
+.gender-filter { display: flex; gap: 6px; }
+.gender-filter button {
+    padding: 10px 16px; border-radius: 10px; background: var(--bg);
+    color: var(--muted); font-weight: 600; font-size: 13px; transition: all .3s;
+}
+.gender-filter button.active { background: var(--royal); color: white; }
 
-        .logout-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-        }
+/* ══════ Students Grid ══════ */
+.students-section { padding-bottom: 60px; }
+.empty-state {
+    background: var(--panel); border-radius: 16px; padding: 60px 20px;
+    text-align: center; border: 2px dashed var(--line-gold);
+}
+.empty-state .icon { font-size: 60px; margin-bottom: 16px; opacity: .5; }
+.empty-state h3 { font-size: 20px; margin-bottom: 8px; color: var(--ink); }
+.empty-state p { color: var(--muted); }
+.students-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.student-card {
+    background: var(--panel); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(26, 58, 108, .08); border: 1px solid var(--line);
+    transition: all .4s var(--ease); position: relative; animation: cardIn .5s var(--ease) backwards;
+}
+@keyframes cardIn { from { opacity: 0; transform: translateY(20px); } }
+.student-card:hover { transform: translateY(-6px); box-shadow: 0 14px 36px rgba(26, 58, 108, .16); }
+.card-header {
+    padding: 18px; background: linear-gradient(135deg, var(--stage, var(--royal)), var(--stage-dark, var(--royal-dark)));
+    color: white; position: relative; overflow: hidden;
+}
+.card-header::after {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent 0, transparent 20px, rgba(255, 255, 255, .04) 20px, rgba(255, 255, 255, .04) 40px);
+}
+.student-card.kg { --stage: var(--stage-kg); --stage-dark: #c66a54; }
+.student-card.primary { --stage: var(--stage-primary); --stage-dark: #4a8fc4; }
+.student-card.middle { --stage: var(--stage-middle); --stage-dark: #7c4fc4; }
+.student-card.high { --stage: var(--stage-high); --stage-dark: #4ac47c; }
+.card-top { display: flex; gap: 14px; align-items: center; position: relative; z-index: 2; }
+.avatar {
+    width: 56px; height: 56px; border-radius: 50%; background: rgba(255, 255, 255, .18);
+    border: 2px solid rgba(255, 255, 255, .4); display: grid; place-items: center;
+    font-size: 24px; font-weight: 700; flex: none; color: white;
+}
+.card-info h3 { font-size: 17px; font-weight: 700; margin-bottom: 4px; line-height: 1.2; }
+.card-info .id-num { font-size: 12px; opacity: .85; font-family: 'Courier New', monospace; letter-spacing: 1px; }
+.stage-tag {
+    position: absolute; top: 14px; left: 14px; background: rgba(255, 255, 255, .2);
+    color: white; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;
+    backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, .3); z-index: 2;
+}
+.card-body { padding: 18px; }
+.info-row { display: flex; gap: 10px; padding: 8px 0; font-size: 13px; border-bottom: 1px dashed var(--line); }
+.info-row:last-child { border-bottom: none; }
+.info-row .lbl { color: var(--muted); font-weight: 500; flex-shrink: 0; min-width: 80px; }
+.info-row .val { color: var(--ink); font-weight: 600; text-align: left; word-break: break-word; }
+.card-actions { display: flex; gap: 8px; padding: 0 18px 18px; }
+.card-actions button {
+    flex: 1; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    transition: all .3s; background: var(--bg); color: var(--ink);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.card-actions button:hover { background: var(--royal); color: white; transform: translateY(-2px); }
+.card-actions button.delete:hover { background: var(--danger); }
 
-        /* Main Navigation */
-        nav {
-            background: var(--card-bg);
-            padding: 0 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            display: flex;
-            gap: 3px;
-            overflow-x: auto;
-            border-bottom: 2px solid #e5e7eb;
-        }
+/* ══════ Modal ══════ */
+.modal-bg {
+    position: fixed; inset: 0; background: rgba(15, 38, 71, .7); backdrop-filter: blur(8px);
+    z-index: 1000; display: grid; place-items: center; opacity: 0; pointer-events: none;
+    transition: opacity .4s; padding: 20px; overflow-y: auto;
+}
+.modal-bg.show { opacity: 1; pointer-events: auto; }
+.modal {
+    background: var(--panel); border-radius: 20px; max-width: 640px; width: 100%;
+    max-height: 92vh; overflow-y: auto; transform: scale(.9) translateY(30px);
+    transition: transform .4s var(--ease); box-shadow: 0 30px 80px rgba(0, 0, 0, .3); border: 1px solid var(--line);
+}
+.modal-bg.show .modal { transform: none; }
+.modal-header {
+    padding: 24px 28px; background: linear-gradient(135deg, var(--royal-dark), var(--royal));
+    color: white; border-radius: 20px 20px 0 0; display: flex; align-items: center;
+    justify-content: space-between; gap: 16px; border-bottom: 3px solid var(--gold);
+}
+.modal-header h2 { font-size: 22px; display: flex; align-items: center; gap: 12px; }
+.close-btn {
+    width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, .1);
+    color: white; display: grid; place-items: center; font-size: 20px; transition: all .3s;
+}
+.close-btn:hover { background: var(--danger); transform: rotate(90deg); }
+.modal-body { padding: 28px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { margin-bottom: 4px; }
+.field.full { grid-column: 1 / -1; }
+.field label { display: block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.field label .req { color: var(--danger); margin-right: 2px; }
+.field input, .field select, .field textarea {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--bg); font-size: 14px; transition: all .3s;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+    outline: none; border-color: var(--royal); background: white; box-shadow: 0 0 0 3px rgba(26, 58, 108, .12);
+}
+.field textarea { resize: vertical; min-height: 80px; }
+.section-title {
+    grid-column: 1 / -1; font-size: 15px; font-weight: 700; color: var(--royal);
+    padding: 12px 0 4px; border-bottom: 2px solid var(--gold); margin-top: 8px;
+    display: flex; align-items: center; gap: 8px;
+}
+.section-title::before { content: ''; width: 4px; height: 18px; background: var(--gold); border-radius: 4px; }
+.modal-footer { padding: 18px 28px 28px; display: flex; gap: 10px; justify-content: flex-start; }
+.modal-footer .btn { flex: 1; justify-content: center; padding: 14px; }
 
-        .nav-btn {
-            padding: 1rem 1.2rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-light);
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+/* ══════ Toasts ══════ */
+#toasts {
+    position: fixed; top: 24px; left: 24px; z-index: 2000;
+    display: flex; flex-direction: column; gap: 10px; max-width: 380px;
+}
+.toast {
+    background: var(--panel); padding: 14px 20px; border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .15); border-right: 4px solid var(--success);
+    display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; animation: toastIn .4s var(--ease);
+}
+.toast.err { border-color: var(--danger); }
+.toast.warn { border-color: var(--warning); }
+.toast .icon { font-size: 20px; }
+@keyframes toastIn { from { transform: translateX(-100%); opacity: 0; } }
 
-        .nav-btn:hover { color: var(--primary); background: #f8fafc; }
-        .nav-btn.active { color: var(--primary); border-bottom-color: var(--accent); }
-        .nav-btn.stage-kg.active { color: var(--kindergarten); border-bottom-color: var(--kindergarten); }
-        .nav-btn.stage-pr.active { color: var(--primary-stage); border-bottom-color: var(--primary-stage); }
-        .nav-btn.stage-md.active { color: var(--middle-stage); border-bottom-color: var(--middle-stage); }
-        .nav-btn.stage-hs.active { color: var(--high-stage); border-bottom-color: var(--high-stage); }
+/* ══════ Print Card Modal ══════ */
+.print-card {
+    background: white; padding: 40px; border-radius: 16px;
+    border: 2px solid var(--royal); position: relative;
+}
+.print-card::before {
+    content: ''; position: absolute; inset: 10px;
+    border: 2px solid var(--gold); border-radius: 10px; pointer-events: none;
+}
+.print-header { text-align: center; padding-bottom: 20px; border-bottom: 2px solid var(--gold); margin-bottom: 24px; }
+.print-header h2 { font-family: 'Amiri', serif; color: var(--royal); font-size: 24px; margin-top: 10px; }
+.print-header p { color: var(--muted); font-size: 13px; }
+.print-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.print-row { padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.print-row .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.print-row .val { font-size: 15px; font-weight: 700; color: var(--ink); }
 
-        /* Main */
-        main { max-width: 1400px; margin: 2rem auto; padding: 0 1.5rem; }
-        .section { display: none; animation: fadeIn 0.4s ease; }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* ══════ Footer ══════ */
+.footer {
+    background: var(--royal-dark); color: rgba(255, 255, 255, .7);
+    padding: 24px 0; text-align: center; font-size: 13px; margin-top: 40px; border-top: 3px solid var(--gold);
+}
+.footer strong { color: var(--gold); }
 
-        /* Stage Cards in Dashboard */
-        .stages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stage-card {
-            background: var(--card-bg);
-            padding: 1.8rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stage-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .stage-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 5px;
-            height: 100%;
-        }
-
-        .stage-card.kg::before { background: var(--kindergarten); }
-        .stage-card.pr::before { background: var(--primary-stage); }
-        .stage-card.md::before { background: var(--middle-stage); }
-        .stage-card.hs::before { background: var(--high-stage); }
-
-        .stage-card .stage-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .stage-card.kg .stage-icon { color: var(--kindergarten); }
-        .stage-card.pr .stage-icon { color: var(--primary-stage); }
-        .stage-card.md .stage-icon { color: var(--middle-stage); }
-        .stage-card.hs .stage-icon { color: var(--high-stage); }
-
-        .stage-card h3 { font-size: 1.3rem; color: var(--primary); margin-bottom: 0.5rem; }
-        .stage-card .count {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text);
-            margin: 0.5rem 0;
-        }
-        .stage-card .info { color: var(--text-light); font-size: 0.9rem; }
-
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            border-right: 5px solid var(--secondary);
-        }
-
-        .stat-card i { font-size: 2rem; padding: 15px; border-radius: 50%; }
-        .stat-card h3 { font-size: 1.8rem; color: var(--primary); }
-        .stat-card p { color: var(--text-light); font-size: 0.85rem; }
-        .stat-card.success { border-right-color: var(--success); }
-        .stat-card.success i { color: var(--success); background: #d1fae5; }
-        .stat-card.warning { border-right-color: var(--warning); }
-        .stat-card.warning i { color: var(--warning); background: #fef3c7; }
-        .stat-card.danger { border-right-color: var(--danger); }
-        .stat-card.danger i { color: var(--danger); background: #fee2e2; }
-        .stat-card.primary i { color: var(--secondary); background: #dbeafe; }
-
-        /* Cards */
-        .card {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-
-        .card h2 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e5e7eb;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Stage Header */
-        .stage-header {
-            padding: 1.5rem 2rem;
-            border-radius: 15px;
-            color: white;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .stage-header.kg { background: linear-gradient(135deg, #ec4899, #f472b6); }
-        .stage-header.pr { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-        .stage-header.md { background: linear-gradient(135deg, #10b981, #34d399); }
-        .stage-header.hs { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-
-        .stage-header h2 { color: white; border: none; margin: 0; font-size: 1.8rem; }
-        .stage-header p { opacity: 0.9; }
-
-        /* Sub Tabs inside stage */
-        .sub-tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 1.5rem;
-            background: #f9fafb;
-            padding: 5px;
-            border-radius: 10px;
-            flex-wrap: wrap;
-        }
-
-        .sub-tab {
-            flex: 1;
-            min-width: 120px;
-            padding: 0.8rem 1rem;
-            background: transparent;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-light);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .sub-tab:hover { background: white; }
-        .sub-tab.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-
-        .sub-section { display: none; }
-        .sub-section.active { display: block; animation: fadeIn 0.3s; }
-
-        /* Forms */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-        .form-group label { font-weight: 600; font-size: 0.95rem; }
-        .form-group input, .form-group select {
-            padding: 0.8rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: #1e40af; transform: translateY(-2px); }
-        .btn-success { background: var(--success); color: white; }
-        .btn-danger { background: var(--danger); color: white; padding: 0.5rem 1rem; font-size: 0.85rem; }
-        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
-
-        /* Tables */
-        .table-container { overflow-x: auto; margin-top: 1rem; }
-        table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        th, td { padding: 1rem; text-align: right; border-bottom: 1px solid #e5e7eb; }
-        th { background: #f9fafb; color: var(--primary); font-weight: 700; }
-        tr:hover { background: #f9fafb; }
-
-        .badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .badge-blue { background: #dbeafe; color: #1e40af; }
-        .badge-green { background: #d1fae5; color: #065f46; }
-        .badge-red { background: #fee2e2; color: #991b1b; }
-        .badge-yellow { background: #fef3c7; color: #92400e; }
-        .badge-pink { background: #fce7f3; color: #9f1239; }
-
-        /* Fee Types */
-        .fee-type-item {
-            background: #f9fafb;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 0.8rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-right: 4px solid var(--secondary);
-        }
-
-        .fee-type-item h4 { color: var(--primary); margin-bottom: 0.3rem; }
-        .fee-type-item .amount { font-size: 1.3rem; font-weight: 700; color: var(--success); }
-
-        /* Alerts */
-        .alert {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .alert-success { background: #d1fae5; color: #065f46; border-right: 4px solid var(--success); }
-
-        /* Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-overlay.active { display: flex; }
-
-        .modal {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal h3 {
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 1.5rem;
-            justify-content: flex-end;
-        }
-
-        /* Class chips for kindergarten */
-        .class-chips {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
-        }
-
-        .class-chip {
-            padding: 0.4rem 1rem;
-            background: #fce7f3;
-            color: #9f1239;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            header { flex-direction: column; text-align: center; }
-            .logo { flex-direction: column; }
-            .stage-header { flex-direction: column; text-align: center; }
-        }
-
-        @media print {
-            header, nav, .btn, .logout-btn, .sub-tabs { display: none !important; }
-            .card { box-shadow: none; border: 1px solid #ddd; }
-        }
-    </style>
+/* ══════ Responsive ══════ */
+@media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .header-wrap { flex-direction: column; text-align: center; }
+    .header-actions { margin-inline-start: 0; width: 100%; justify-content: center; }
+    .form-grid { grid-template-columns: 1fr; }
+    .logo-text h1 { font-size: 22px; }
+    .container { padding-inline: 16px; }
+}
+@media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .modal { border-radius: 14px; }
+    .modal-body { padding: 20px; }
+    .logo-svg { width: 56px; height: 56px; }
+}
+@media print {
+    body * { visibility: hidden; }
+    .print-card, .print-card * { visibility: visible; }
+    .print-card { position: absolute; inset: 0; border: 2px solid var(--royal); }
+    @page { margin: 1cm; }
+}
+</style>
 </head>
 <body>
 
-<!-- Login Screen -->
-<div id="loginScreen" class="login-screen">
+<!-- ═══════ Login Screen ═══════ -->
+<div id="loginScreen">
     <div class="login-box">
-        <i class="fas fa-school logo-icon"></i>
-        <h2>مدرسة السلطان عيسى الساير</h2>
-        <p>النظام المتكامل لإدارة المراحل الدراسية والرسوم</p>
-        <form onsubmit="loginDirector(event)">
-            <input type="text" id="loginUsername" placeholder="اسم المستخدم" required>
-            <input type="password" id="loginPassword" placeholder="كلمة المرور" required>
-            <button type="submit"><i class="fas fa-sign-in-alt"></i> دخول</button>
+        <svg width="60" height="60" viewBox="0 0 100 100" style="margin-bottom:15px">
+            <defs>
+                <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#d4af37"/><stop offset="50%" stop-color="#f5d77a"/><stop offset="100%" stop-color="#d4af37"/>
+                </linearGradient>
+                <linearGradient id="lg2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#1a3a6c"/><stop offset="100%" stop-color="#0f2647"/>
+                </linearGradient>
+            </defs>
+            <path d="M50 3 L92 15 L92 50 Q92 80 50 97 Q8 80 8 50 L8 15 Z" fill="url(#lg1)" stroke="#a8861f" stroke-width="1.5"/>
+            <path d="M50 8 L87 19 L87 50 Q87 77 50 92 Q13 77 13 50 L13 19 Z" fill="url(#lg2)"/>
+            <g transform="translate(50, 20)"><path d="M-12 0 L-9 -6 L-5 -2 L0 -8 L5 -2 L9 -6 L12 0 L10 4 L-10 4 Z" fill="#d4af37"/></g>
+            <path d="M50 28 L51.5 32.5 L56 33 L52.5 36 L53.5 40.5 L50 38 L46.5 40.5 L47.5 36 L44 33 L48.5 32.5 Z" fill="#d4af37"/>
+            <path d="M30 80 Q50 84 70 80 L68 86 Q50 90 32 86 Z" fill="#d4af37"/>
+            <text x="50" y="85" text-anchor="middle" fill="#0f2647" font-family="Amiri, serif" font-size="4" font-weight="700">السلطان عيسى الساير</text>
+        </svg>
+        <h2>تسجيل دخول المدير</h2>
+        <p>نظام إدارة طلاب مدرسة السلطان عيسى الساير</p>
+        <form onsubmit="handleLogin(event)">
+            <input type="text" id="adminUser" placeholder="اسم المستخدم" required>
+            <input type="password" id="adminPass" placeholder="كلمة المرور" required>
+            <button type="submit">دخول النظام</button>
         </form>
         <div class="login-hint">
-            <i class="fas fa-info-circle"></i>
-            <strong>بيانات الدخول:</strong><br>
-            : <code></code>: <code></code>
-        </div>
-    </div>      
-</div>
-
-<!-- Main App -->
-<div id="mainApp" style="display: none;">
-    <header>
-        <div class="logo">
-            <i class="fas fa-school"></i>
-            <div>
-                <h1>مدرسة السلطان عيسى الساير</h1>
-                <p>النظام المتكامل - 2026</p>
-            </div>
-        </div>
-        <div style="display: flex; gap: 15px; align-items: center;">
-            <span style="color: white; font-size: 0.9rem;">
-                <i class="fas fa-user-shield"></i> مرحباً، المدير
-            </span>
-            <button class="logout-btn" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i> خروج
-            </button>
-        </div>
-    </header>
-
-    <nav>
-        <button class="nav-btn active" onclick="showSection('dashboard', this)">
-            <i class="fas fa-home"></i> الرئيسية
-        </button>
-        <button class="nav-btn stage-kg" onclick="showSection('stage-kg', this)">
-            <i class="fas fa-baby"></i> الروضة
-        </button>
-        <button class="nav-btn stage-pr" onclick="showSection('stage-pr', this)">
-            <i class="fas fa-book-reader"></i> الأساسي
-        </button>
-        <button class="nav-btn stage-md" onclick="showSection('stage-md', this)">
-            <i class="fas fa-graduation-cap"></i> المتوسط
-        </button>
-        <button class="nav-btn stage-hs" onclick="showSection('stage-hs', this)">
-            <i class="fas fa-user-graduate"></i> الثانوي
-        </button>
-        <button class="nav-btn" onclick="showSection('reports', this)">
-            <i class="fas fa-file-invoice-dollar"></i> التقارير
-        </button>
-    </nav>
-
-    <main>
-        <!-- Dashboard -->
-        <section id="dashboard" class="section active">
-            <div class="card" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none;">
-                <h2 style="color: white; border: none;"><i class="fas fa-chart-pie"></i> نظرة عامة على المدرسة</h2>
-                <p style="opacity: 0.95;">اختر أي مرحلة لعرض تفاصيلها الكاملة (الطلاب، الرسوم، المدفوعات)</p>
-            </div>
-
-            <div class="stages-grid">
-                <div class="stage-card kg" onclick="showSection('stage-kg', document.querySelector('.stage-kg'))">
-                    <div class="stage-icon"><i class="fas fa-baby"></i></div>
-                    <h3>الروضة</h3>
-                    <div class="count" id="kg-count">0</div>
-                    <div class="info">طالب مسجل</div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-                        <small style="color: var(--text-light);">المحصل: </small>
-                        <strong id="kg-collected" style="color: var(--success);">0</strong>
-                    </div>
-                </div>
-
-                <div class="stage-card pr" onclick="showSection('stage-pr', document.querySelector('.stage-pr'))">
-                    <div class="stage-icon"><i class="fas fa-book-reader"></i></div>
-                    <h3>الأساسي</h3>
-                    <div class="count" id="pr-count">0</div>
-                    <div class="info">طالب مسجل</div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-                        <small style="color: var(--text-light);">المحصل: </small>
-                        <strong id="pr-collected" style="color: var(--success);">0</strong>
-                    </div>
-                </div>
-
-                <div class="stage-card md" onclick="showSection('stage-md', document.querySelector('.stage-md'))">
-                    <div class="stage-icon"><i class="fas fa-graduation-cap"></i></div>
-                    <h3>المتوسط</h3>
-                    <div class="count" id="md-count">0</div>
-                    <div class="info">طالب مسجل</div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-                        <small style="color: var(--text-light);">المحصل: </small>
-                        <strong id="md-collected" style="color: var(--success);">0</strong>
-                    </div>
-                </div>
-
-                <div class="stage-card hs" onclick="showSection('stage-hs', document.querySelector('.stage-hs'))">
-                    <div class="stage-icon"><i class="fas fa-user-graduate"></i></div>
-                    <h3>الثانوي</h3>
-                    <div class="count" id="hs-count">0</div>
-                    <div class="info">طالب مسجل</div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-                        <small style="color: var(--text-light);">المحصل: </small>
-                        <strong id="hs-collected" style="color: var(--success);">0</strong>
-                    </div>
-                </div>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card primary">
-                    <i class="fas fa-users"></i>
-                    <div>
-                        <h3 id="stat-total-students">0</h3>
-                        <p>إجمالي طلاب المدرسة</p>
-                    </div>
-                </div>
-                <div class="stat-card success">
-                    <i class="fas fa-coins"></i>
-                    <div>
-                        <h3 id="stat-total-collected">0</h3>
-                        <p>إجمالي المحصل</p>
-                    </div>
-                </div>
-                <div class="stat-card warning">
-                    <i class="fas fa-hourglass-half"></i>
-                    <div>
-                        <h3 id="stat-total-pending">0</h3>
-                        <p>إجمالي المتبقي</p>
-                    </div>
-                </div>
-                <div class="stat-card danger">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div>
-                        <h3 id="stat-unpaid">0</h3>
-                        <p>طلاب لم يدفعوا</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Kindergarten Section -->
-        <section id="stage-kg" class="section">
-            <div class="stage-header kg">
-                <div>
-                    <h2><i class="fas fa-baby"></i> مرحلة الروضة</h2>
-                    <p>تمهيدي • بستنة 1 • بستنة 2 • تمهيدية</p>
-                </div>
-                <div style="text-align: left;">
-                    <div style="font-size: 2rem; font-weight: 700;" id="kg-header-count">0</div>
-                    <div style="opacity: 0.9;">طالب</div>
-                </div>
-            </div>
-
-            <div class="sub-tabs">
-                <button class="sub-tab active" onclick="showSubSection('kg', 'students', this)">
-                    <i class="fas fa-child"></i> الطلاب
-                </button>
-                <button class="sub-tab" onclick="showSubSection('kg', 'fees', this)">
-                    <i class="fas fa-money-bill"></i> رسوم الروضة
-                </button>
-                <button class="sub-tab" onclick="showSubSection('kg', 'payments', this)">
-                    <i class="fas fa-hand-holding-usd"></i> المدفوعات
-                </button>
-            </div>
-
-            <!-- KG Students -->
-            <div id="kg-students" class="sub-section active">
-                <div class="card">
-                    <h2><i class="fas fa-user-plus"></i> تسجيل طالب جديد في الروضة</h2>
-                    <div id="kg-student-alert"></div>
-                    <form onsubmit="addStudent(event, 'kg')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>اسم الطالب</label>
-                                <input type="text" id="kg-student-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>القسم</label>
-                                <select id="kg-student-class" required>
-                                    <option value="">اختر القسم</option>
-                                    <option value="تمهيدي">تمهيدي</option>
-                                    <option value="بستنة 1">بستنة 1</option>
-                                    <option value="بستنة 2">بستنة 2</option>
-                                    <option value="تمهيدية">تمهيدية</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>عمر الطفل</label>
-                                <input type="number" id="kg-student-age" min="3" max="6" placeholder="مثال: 4">
-                            </div>
-                            <div class="form-group">
-                                <label>هاتف ولي الأمر</label>
-                                <input type="tel" id="kg-student-phone" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
-                            <i class="fas fa-plus"></i> إضافة الطالب
-                        </button>
-                    </form>
-                </div>
-
-                <div class="card">
-                    <h2><i class="fas fa-list"></i> قائمة طلاب الروضة</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>الاسم</th>
-                                    <th>القسم</th>
-                                    <th>العمر</th>
-                                    <th>الهاتف</th>
-                                    <th>الحالة</th>
-                                    <th>الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="kg-students-table"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- KG Fees -->
-            <div id="kg-fees" class="sub-section">
-                <div class="card">
-                    <h2><i class="fas fa-plus-circle"></i> إضافة رسوم خاصة بالروضة</h2>
-                    <p style="color: var(--text-light); margin-bottom: 1rem;">هذه الرسوم خاصة بمرحلة الروضة فقط</p>
-                    <form onsubmit="addFeeType(event, 'kg')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>اسم الرسوم</label>
-                                <input type="text" id="kg-fee-name" required placeholder="مثال: رسوم الفصل الأول">
-                            </div>
-                            <div class="form-group">
-                                <label>المبلغ</label>
-                                <input type="number" id="kg-fee-amount" required min="0" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>الوصف (اختياري)</label>
-                                <input type="text" id="kg-fee-desc">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
-                            <i class="fas fa-save"></i> حفظ
-                        </button>
-                    </form>
-                </div>
-                <div class="card">
-                    <h2><i class="fas fa-list-ul"></i> رسوم الروضة</h2>
-                    <div id="kg-fees-list"></div>
-                </div>
-            </div>
-
-            <!-- KG Payments -->
-            <div id="kg-payments" class="sub-section">
-                <div class="card">
-                    <h2><i class="fas fa-hand-holding-usd"></i> تسجيل دفعة - الروضة</h2>
-                    <form onsubmit="addPayment(event, 'kg')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>الطالب</label>
-                                <select id="kg-pay-student" required></select>
-                            </div>
-                            <div class="form-group">
-                                <label>نوع الرسوم</label>
-                                <select id="kg-pay-fee" required onchange="fillAmount('kg')"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>المبلغ</label>
-                                <input type="number" id="kg-pay-amount" required min="0" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>التاريخ</label>
-                                <input type="date" id="kg-pay-date" required>
-                            </div>
-                            <div class="form-group">
-                                <label>ملاحظات</label>
-                                <input type="text" id="kg-pay-notes">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success" style="margin-top: 1.5rem;">
-                            <i class="fas fa-check"></i> تسجيل الدفعة
-                        </button>
-                    </form>
-                </div>
-                <div class="card">
-                    <h2><i class="fas fa-history"></i> سجل مدفوعات الروضة</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>التاريخ</th>
-                                    <th>الطالب</th>
-                                    <th>القسم</th>
-                                    <th>نوع الرسوم</th>
-                                    <th>المبلغ</th>
-                                    <th>ملاحظات</th>
-                                    <th>حذف</th>
-                                </tr>
-                            </thead>
-                            <tbody id="kg-payments-table"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Primary Section -->
-        <section id="stage-pr" class="section">
-            <div class="stage-header pr">
-                <div>
-                    <h2><i class="fas fa-book-reader"></i> المرحلة الأساسية</h2>
-                    <p>الصف الأول • الثاني • الثالث • الرابع • الخامس • السادس</p>
-                </div>
-                <div style="text-align: left;">
-                    <div style="font-size: 2rem; font-weight: 700;" id="pr-header-count">0</div>
-                    <div style="opacity: 0.9;">طالب</div>
-                </div>
-            </div>
-
-            <div class="sub-tabs">
-                <button class="sub-tab active" onclick="showSubSection('pr', 'students', this)">
-                    <i class="fas fa-child"></i> الطلاب
-                </button>
-                <button class="sub-tab" onclick="showSubSection('pr', 'fees', this)">
-                    <i class="fas fa-money-bill"></i> رسوم الأساسي
-                </button>
-                <button class="sub-tab" onclick="showSubSection('pr', 'payments', this)">
-                    <i class="fas fa-hand-holding-usd"></i> المدفوعات
-                </button>
-            </div>
-
-            <div id="pr-students" class="sub-section active">
-                <div class="card">
-                    <h2><i class="fas fa-user-plus"></i> تسجيل طالب جديد - الأساسي</h2>
-                    <div id="pr-student-alert"></div>
-                    <form onsubmit="addStudent(event, 'pr')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>اسم الطالب</label>
-                                <input type="text" id="pr-student-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>الصف</label>
-                                <select id="pr-student-class" required>
-                                    <option value="">اختر الصف</option>
-                                    <option value="الأول">الصف الأول</option>
-                                    <option value="الثاني">الصف الثاني</option>
-                                    <option value="الثالث">الصف الثالث</option>
-                                    <option value="الرابع">الصف الرابع</option>
-                                    <option value="الخامس">الصف الخامس</option>
-                                    <option value="السادس">الصف السادس</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>الشعبة</label>
-                                <select id="pr-student-section">
-                                    <option value="أ">أ</option>
-                                    <option value="ب">ب</option>
-                                    <option value="ج">ج</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>هاتف ولي الأمر</label>
-                                <input type="tel" id="pr-student-phone" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
-                            <i class="fas fa-plus"></i> إضافة الطالب
-                        </button>
-                    </form>
-                </div>
-
-                <div class="card">
-                    <h2><i class="fas fa-list"></i> قائمة طلاب الأساسي</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>الاسم</th>
-                                    <th>الصف</th>
-                                    <th>الشعبة</th>
-                                    <th>الهاتف</th>
-                                    <th>الحالة</th>
-                                    <th>الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pr-students-table"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="pr-fees" class="sub-section">
-                <div class="card">
-                    <h2><i class="fas fa-plus-circle"></i> إضافة رسوم - الأساسي</h2>
-                    <form onsubmit="addFeeType(event, 'pr')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>اسم الرسوم</label>
-                                <input type="text" id="pr-fee-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>المبلغ</label>
-                                <input type="number" id="pr-fee-amount" required min="0" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>الوصف</label>
-                                <input type="text" id="pr-fee-desc">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
-                            <i class="fas fa-save"></i> حفظ
-                        </button>
-                    </form>
-                </div>
-                <div class="card">
-                    <h2><i class="fas fa-list-ul"></i> رسوم الأساسي</h2>
-                    <div id="pr-fees-list"></div>
-                </div>
-            </div>
-
-            <div id="pr-payments" class="sub-section">
-                <div class="card">
-                    <h2><i class="fas fa-hand-holding-usd"></i> تسجيل دفعة - الأساسي</h2>
-                    <form onsubmit="addPayment(event, 'pr')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>الطالب</label>
-                                <select id="pr-pay-student" required></select>
-                            </div>
-                            <div class="form-group">
-                                <label>نوع الرسوم</label>
-                                <select id="pr-pay-fee" required onchange="fillAmount('pr')"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>المبلغ</label>
-                                <input type="number" id="pr-pay-amount" required min="0" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>التاريخ</label>
-                                <input type="date" id="pr-pay-date" required>
-                            </div>
-                            <div class="form-group">
-                                <label>ملاحظات</label>
-                                <input type="text" id="pr-pay-notes">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success" style="margin-top: 1.5rem;">
-                            <i class="fas fa-check"></i> تسجيل الدفعة
-                        </button>
-                    </form>
-                </div>
-                <div class="card">
-                    <h2><i class="fas fa-history"></i> سجل مدفوعات الأساسي</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>التاريخ</th>
-                                    <th>الطالب</th>
-                                    <th>الصف</th>
-                                    <th>نوع الرسوم</th>
-                                    <th>المبلغ</th>
-                                    <th>ملاحظات</th>
-                                    <th>حذف</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pr-payments-table"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Middle Section -->
-        <section id="stage-md" class="section">
-            <div class="stage-header md">
-                <div>
-                    <h2><i class="fas fa-graduation-cap"></i> المرحلة المتوسطة</h2>
-                    <p>السابع • الثامن • التاسع</p>
-                </div>
-                <div style="text-align: left;">
-                    <div style="font-size: 2rem; font-weight: 700;" id="md-header-count">0</div>
-                    <div style="opacity: 0.9;">طالب</div>
-                </div>
-            </div>
-
-            <div class="sub-tabs">
-                <button class="sub-tab active" onclick="showSubSection('md', 'students', this)">
-                    <i class="fas fa-child"></i> الطلاب
-                </button>
-                <button class="sub-tab" onclick="showSubSection('md', 'fees', this)">
-                    <i class="fas fa-money-bill"></i> رسوم المتوسط
-                </button>
-                <button class="sub-tab" onclick="showSubSection('md', 'payments', this)">
-                    <i class="fas fa-hand-holding-usd"></i> المدفوعات
-                </button>
-            </div>
-
-            <div id="md-students" class="sub-section active">
-                <div class="card">
-                    <h2><i class="fas fa-user-plus"></i> تسجيل طالب جديد - المتوسط</h2>
-                    <div id="md-student-alert"></div>
-                    <form onsubmit="addStudent(event, 'md')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>اسم الطالب</label>
-                                <input type="text" id="md-student-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>الصف</label>
-                                <select id="md-student-class" required>
-                                    <option value="">اختر الصف</option>
-                                    <option value="السابع">الصف الاول متوسط</option>
-                                    <option value="الثامن">الصف الثاني متوسط</option>
-                                    <option value="التاسع">الصف الثالث متوسط</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>الشعبة</label>
-                                <select id="md-student-section">
-                                    <option value="أ">أ</option>
-                                    <option value="ب">ب</option>
-                                    <option value="ج">ج</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>هاتف ولي الأمر</label>
-                                <input type="tel" id="md-student-phone" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
-                            <i class="fas fa-plus"></i> إضافة الطالب
-                        </button>
-                    </form>
-                </div>
-
-                <div class="card">
-                    <h2><i class="fas fa-list"></i> قائمة طلاب المتوسط</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>الاسم</th>
-                                    <th>الصف</th>
-                                    <th>الشعبة</th>
-                                    <th>الهاتف</th>
-                                    <th>الحالة</th>
-                                    <th>الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="md-students-table"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="md-fees" class="sub-section">
-                <div class="card">
-                    <h2><i class="fas fa-plus-circle"></i> إضافة رسوم - المتوسط</h2>
-                    <form onsubmit="addFeeType(event, 'md')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>اسم الرسوم</label>
-                                <input type="text" id="md-fee-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>المبلغ</label>
-                                <input type="number" id="md-fee-amount" required min="0" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>الوصف</label>
-                                <input type="text" id="md-fee-desc">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
-                            <i class="fas fa-save"></i> حفظ
-                        </button>
-                    </form>
-                </div>
-                <div class="card">
-                    <h2><i class="fas fa-list-ul"></i> رسوم المتوسط</h2>
-                    <div id="md-fees-list"></div>
-                </div>
-            </div>
-
-            <div id="md-payments" class="sub-section">
-                <div class="card">
-                    <h2><i class="fas fa-hand-holding-usd"></i> تسجيل دفعة - المتوسط</h2>
-                    <form onsubmit="addPayment(event, 'md')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>الطالب</label>
-                                <select id="md-pay-student" required></select>
-                            </div>
-                            <div class="form-group">
-                                <label>نوع الرسوم</label>
-                                <select id="md-pay-fee" required onchange="fillAmount('md')"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>المبلغ</label>
-                                <input type="number" id="md-pay-amount" required min="0" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>التاريخ</label>
-                                <input type="date" id="md-pay-date" required>
-                            </div>
-                            <div class="form-group">
-                                <label>ملاحظات</label>
-                                <input type="text" id="md-pay-notes">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success" style="margin-top: 1.5rem;">
-                            <i class="fas fa-check"></i> تسجيل الدفعة
-                        </button>
-                    </form>
-                </div>
-                <div class="card">
-                    <h2><i class="fas fa-history"></i> سجل مدفوعات المتوسط</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>التاريخ</th>
-                                    <th>الطالب</th>
-                                    <th>الصف</th>
-                                    <th>نوع الرسوم</th>
-                                    <th>المبلغ</th>
-                                    <th>ملاحظات</th>
-                                    <th>حذف</th>
-                                </tr>
-                            </thead>
-                            <tbody id="md-payments-table"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- High School Section -->
-        <section id="stage-hs" class="section">
-            <div class="stage-header hs">
-                <div>
-                    <h2><i class="fas fa-user-graduate"></i> المرحلة الثانوية</h2>
-                    <p>العاشر • الحادي عشر • الثاني عشر</p>
-                </div>
-                <div style="text-align: left;">
-                    <div style="font-size: 2rem; font-weight: 700;" id="hs-header-count">0</div>
-                    <div style="opacity: 0.9;">طالب</div>
-                </div>
-            </div>
-
-            <div class="sub-tabs">
-                <button class="sub-tab active" onclick="showSubSection('hs', 'students', this)">
-                    <i class="fas fa-child"></i> الطلاب
-                </button>
-                <button class="sub-tab" onclick="showSubSection('hs', 'fees', this)">
-                    <i class="fas fa-money-bill"></i> رسوم الثانوي
-                </button>
-                <button class="sub-tab" onclick="showSubSection('hs', 'payments', this)">
-                    <i class="fas fa-hand-holding-usd"></i> المدفوعات
-                </button>
-            </div>
-
-            <div id="hs-students" class="sub-section active">
-                <div class="card">
-                    <h2><i class="fas fa-user-plus"></i> تسجيل طالب جديد - الثانوي</h2>
-                    <div id="hs-student-alert"></div>
-                    <form onsubmit="addStudent(event, 'hs')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>اسم الطالب</label>
-                                <input type="text" id="hs-student-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>الصف</label>
-                                <select id="hs-student-class" required>
-                                    <option value="">اختر الصف</option>
-                                    <option value="العاشر">اولى ثانوي </option>
-                                    <option value="الحادي عشر">  ثانيه ثانوي</option>
-                                    <option value="الثاني عشر">ثالثه ثانوي</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>الفرع</label>
-                                <select id="hs-student-section">
-                                    <option value="علمي">علمي</option>
-                                    <option value="أدبي">أدبي</option>
-                                    <option value="تجاري"></option>
-                                    <option value="صناعي"></option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>هاتف ولي الأمر</label>
-                                <input type="tel" id="hs-student-phone" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
-                            <i class="fas fa-plus"></i> إضافة الطالب
-                        </button>
-                    </form>
-                </div>
-
-                <div class="card">
-                    <h2><i class="fas fa-list"></i> قائمة طلاب الثانوي</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>الاسم</th>
-                                    <th>الصف</th>
-                                    <th>الفرع</th>
-                                    <th>الهاتف</th>
-                                    <th>الحالة</th>
-                                    <th>الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="hs-students-table"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="hs-fees" class="sub-section">
-                <div class="card">
-                    <h2><i class="fas fa-plus-circle"></i> إضافة رسوم - الثانوي</h2>
-                    <form onsubmit="addFeeType(event, 'hs')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>اسم الرسوم</label>
-                                <input type="text" id="hs-fee-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>المبلغ</label>
-                                <input type="number" id="hs-fee-amount" required min="0" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>الوصف</label>
-                                <input type="text" id="hs-fee-desc">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">
-                            <i class="fas fa-save"></i> حفظ
-                        </button>
-                    </form>
-                </div>
-                <div class="card">
-                    <h2><i class="fas fa-list-ul"></i> رسوم الثانوي</h2>
-                    <div id="hs-fees-list"></div>
-                </div>
-            </div>
-
-            <div id="hs-payments" class="sub-section">
-                <div class="card">
-                    <h2><i class="fas fa-hand-holding-usd"></i> تسجيل دفعة - الثانوي</h2>
-                    <form onsubmit="addPayment(event, 'hs')">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>الطالب</label>
-                                <select id="hs-pay-student" required></select>
-                            </div>
-                            <div class="form-group">
-                                <label>نوع الرسوم</label>
-                                <select id="hs-pay-fee" required onchange="fillAmount('hs')"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>المبلغ</label>
-                                <input type="number" id="hs-pay-amount" required min="0" step="0.01">
-                            </div>
-                            <div class="form-group">
-                                <label>التاريخ</label>
-                                <input type="date" id="hs-pay-date" required>
-                            </div>
-                            <div class="form-group">
-                                <label>ملاحظات</label>
-                                <input type="text" id="hs-pay-notes">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success" style="margin-top: 1.5rem;">
-                            <i class="fas fa-check"></i> تسجيل الدفعة
-                        </button>
-                    </form>
-                </div>
-                <div class="card">
-                    <h2><i class="fas fa-history"></i> سجل مدفوعات الثانوي</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>التاريخ</th>
-                                    <th>الطالب</th>
-                                    <th>الصف</th>
-                                    <th>نوع الرسوم</th>
-                                    <th>المبلغ</th>
-                                    <th>ملاحظات</th>
-                                    <th>حذف</th>
-                                </tr>
-                            </thead>
-                            <tbody id="hs-payments-table"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Reports Section -->
-        <section id="reports" class="section">
-            <div class="card">
-                <h2><i class="fas fa-file-invoice-dollar"></i> تقرير شامل لكل المراحل</h2>
-                <p style="color: var(--text-light); margin-bottom: 1rem;">تقرير مفصل يوضح حالة كل طالب في جميع المراحل</p>
-                
-                <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                    <select id="report-filter-stage" onchange="renderReport()" style="padding: 0.6rem 1rem; border: 1px solid #d1d5db; border-radius: 8px;">
-                        <option value="all">جميع المراحل</option>
-                        <option value="kg">الروضة</option>
-                        <option value="pr">الأساسي</option>
-                        <option value="md">المتوسط</option>
-                        <option value="hs">الثانوي</option>
-                    </select>
-                    <button class="btn btn-primary" onclick="window.print()">
-                        <i class="fas fa-print"></i> طباعة
-                    </button>
-                </div>
-
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>المرحلة</th>
-                                <th>الطالب</th>
-                                <th>الصف/القسم</th>
-                                <th>المستحق</th>
-                                <th>المدفوع</th>
-                                <th>المتبقي</th>
-                                <th>الحالة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="report-table"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-    </main>
-</div>
-
-<!-- Student Details Modal -->
-<div id="studentModal" class="modal-overlay">
-    <div class="modal">
-        <h3><i class="fas fa-user"></i> تفاصيل الطالب وحساباته</h3>
-        <div id="modalContent"></div>
-        <div class="modal-actions">
-            <button class="btn" style="background: #e5e7eb;" onclick="closeModal()">إغلاق</button>
+            <strong>بيانات الدخول الافتراضية:</strong><br>
+            المستخدم: <code>admin</code> | كلمة المرور: <code>123456</code>
         </div>
     </div>
 </div>
 
+<!-- ═══════ Header ═══════ -->
+<header class="header">
+    <div class="container">
+        <div class="header-wrap">
+            <div class="logo-box">
+                <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#d4af37"/>
+                            <stop offset="50%" stop-color="#f5d77a"/>
+                            <stop offset="100%" stop-color="#d4af37"/>
+                        </linearGradient>
+                        <linearGradient id="shieldInner" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#1a3a6c"/>
+                            <stop offset="100%" stop-color="#0f2647"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M50 3 L92 15 L92 50 Q92 80 50 97 Q8 80 8 50 L8 15 Z" fill="url(#shieldGrad)" stroke="#a8861f" stroke-width="1.5"/>
+                    <path d="M50 8 L87 19 L87 50 Q87 77 50 92 Q13 77 13 50 L13 19 Z" fill="url(#shieldInner)"/>
+                    <g transform="translate(50, 20)"><path d="M-12 0 L-9 -6 L-5 -2 L0 -8 L5 -2 L9 -6 L12 0 L10 4 L-10 4 Z" fill="#d4af37" stroke="#a8861f" stroke-width="0.5"/><circle cx="-9" cy="-6" r="1.2" fill="#f5d77a"/><circle cx="0" cy="-8" r="1.2" fill="#f5d77a"/><circle cx="9" cy="-6" r="1.2" fill="#f5d77a"/></g>
+                    <path d="M50 28 L51.5 32.5 L56 33 L52.5 36 L53.5 40.5 L50 38 L46.5 40.5 L47.5 36 L44 33 L48.5 32.5 Z" fill="#d4af37"/>
+                    <g transform="translate(50, 55)">
+                        <path d="M-20 -8 L-2  -4 L-2 12 L-20 8 Z" fill="#faf6ee" stroke="#a8861f" stroke-width="0.8"/>
+                        <path d="M20 -8 L2 -4 L2 12 L20 8 Z" fill="#faf6ee" stroke="#a8861f" stroke-width="0.8"/>
+                        <path d="M-2 -4 L2 -4 L2 12 L-2 12 Z" fill="#d4af37"/>
+                        <line x1="-17" y1="-2" x2="-5" y2="0" stroke="#1a3a6c" stroke-width="0.5"/>
+                        <line x1="-17" y1="1" x2="-5" y2="3" stroke="#1a3a6c" stroke-width="0.5"/>
+                        <line x1="-17" y1="4" x2="-5" y2="6" stroke="#1a3a6c" stroke-width="0.5"/>
+                        <line x1="5" y1="0" x2="17" y2="-2" stroke="#1a3a6c" stroke-width="0.5"/>
+                        <line x1="5" y1="3" x2="17" y2="1" stroke="#1a3a6c" stroke-width="0.5"/>
+                        <line x1="5" y1="6" x2="17" y2="4" stroke="#1a3a6c" stroke-width="0.5"/>
+                    </g>
+                    <g transform="translate(50, 75) rotate(-45)"><path d="M-10 0 L6 0 L10 -2 L6 0 L10 2 L6 0 L-10 0 Z" fill="#d4af37" stroke="#a8861f" stroke-width="0.3"/><rect x="-10" y="-1.5" width="8" height="3" fill="#a8861f"/></g>
+                    <path d="M20 50 Q15 40 20 30" stroke="#d4af37" stroke-width="1" fill="none"/>
+                    <path d="M80 50 Q85 40 80 30" stroke="#d4af37" stroke-width="1" fill="none"/>
+                    <path d="M30 80 Q50 84 70 80 L68 86 Q50 90 32 86 Z" fill="#d4af37"/>
+                    <text x="50" y="85" text-anchor="middle" fill="#0f2647" font-family="Amiri, serif" font-size="4" font-weight="700">السلطان عيسى الساير</text>
+                </svg>
+                <div class="logo-text">
+                    <h1>مدرسة السلطان عيسى الساير</h1>
+                    <p>نظام تسجيل الطلاب • التميز في التعليم</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-ghost" onclick="exportData()">
+                    <span>📥</span> تصدير البيانات
+                </button>
+                <!-- زر إدارة الرسوم المضاف -->
+                <button class="btn btn-primary" onclick="openFeesModal()" style="background: var(--success); box-shadow: 0 4px 14px rgba(45, 134, 89, .4);">
+                    <span>💰</span> إدارة الرسوم
+                </button>
+                <button class="btn btn-primary" onclick="openModal()">
+                    <span>➕</span> تسجيل طالب جديد
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ═══════ Stats ═══════ -->
+<section class="stats">
+    <div class="container">
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card total"><div class="icon">🎓</div><div class="num" id="stat-total">0</div><div class="label">إجمالي الطلاب</div></div>
+            <div class="stat-card kg"><div class="icon">🧸</div><div class="num" id="stat-kg">0</div><div class="label">مرحلة الروضة</div></div>
+            <div class="stat-card primary"><div class="icon">📚</div><div class="num" id="stat-primary">0</div><div class="label">المرحلة الأساسية</div></div>
+            <div class="stat-card middle"><div class="icon">🎯</div><div class="num" id="stat-middle">0</div><div class="label">المرحلة المتوسطة</div></div>
+            <div class="stat-card high"><div class="icon">🏆</div><div class="num" id="stat-high">0</div><div class="label">المرحلة الثانوية</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════ Main Content ═══════ -->
+<main class="container">
+    <div class="tabs-wrap">
+        <div class="tabs" id="tabs">
+            <button class="tab active" data-stage="all"><span>📋</span> جميع الطلاب <span class="badge" id="badge-all">0</span></button>
+            <button class="tab" data-stage="kg"><span>🧸</span> الروضة <span class="badge" id="badge-kg">0</span></button>
+            <button class="tab" data-stage="primary"><span>📚</span> الأساسي <span class="badge" id="badge-primary">0</span></button>
+            <button class="tab" data-stage="middle"><span>🎯</span> المتوسط <span class="badge" id="badge-middle">0</span></button>
+            <button class="tab" data-stage="high"><span>🏆</span> الثانوي <span class="badge" id="badge-high">0</span></button>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ابحث بالاسم، رقم الطالب، أو رقم البطاقة...">
+        </div>
+        <div class="gender-filter">
+            <button class="active" data-gender="all">الكل</button>
+            <button data-gender="ذكر">👦 ذكور</button>
+            <button data-gender="أنثى">👧 إناث</button>
+        </div>
+        <button class="btn btn-sm btn-ghost" style="background:var(--bg);color:var(--ink);border:1px solid var(--line)" onclick="clearAll()">
+            <span>🗑️</span> مسح الكل
+        </button>
+    </div>
+    
+    <section class="students-section">
+        <div id="studentsContainer"></div>
+    </section>
+</main>
+
+<!-- ═══════ Footer ═══════ -->
+<footer class="footer">
+    <div class="container">
+        جميع الحقوق محفوظة © 2026 • <strong>مدرسة السلطان عيسى الساير</strong> • نظام إدارة الطلاب المتكامل
+    </div>
+</footer>
+
+<!-- ═══════ Registration Modal ═══════ -->
+<div class="modal-bg" id="modalBg">
+    <div class="modal">
+        <div class="modal-header">
+            <h2><span>📝</span><span id="modalTitle">تسجيل طالب جديد</span></h2>
+            <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <form id="studentForm">
+                <input type="hidden" id="studentId">
+                <div class="form-grid">
+                    <div class="section-title">بيانات الطالب</div>
+                    <div class="field"><label><span class="req">*</span> الاسم الأول</label><input type="text" id="firstName" required></div>
+                    <div class="field"><label><span class="req">*</span> اسم الأب</label><input type="text" id="fatherName" required></div>
+                    <div class="field full"><label>اسم الجد / العائلة</label><input type="text" id="familyName"></div>
+                    <div class="field"><label><span class="req">*</span> الجنس</label><select id="gender" required><option value="">-- اختر --</option><option value="ذكر">ذكر</option><option value="أنثى">أنثى</option></select></div>
+                    <div class="field"><label><span class="req">*</span> تاريخ الميلاد</label><input type="date" id="birthDate" required></div>
+                    <div class="field"><label><span class="req">*</span> الجنسية</label><input type="text" id="nationality" value="سوداني"></div>
+                    <div class="field"><label>رقم البطاقة / الهوية</label><input type="text" id="idNumber" placeholder="أدخل رقم البطاقة للبحث الدقيق"></div>
+                    <div class="field full"><label><span class="req">*</span> المرحلة الدراسية</label>
+                        <select id="stage" required>
+                            <option value="">-- اختر المرحلة --</option>
+                            <optgroup label="🧸 مرحلة الروضة"><option value="kg-برعم">برعم (3-4 سنوات)</option><option value="kg-تمهيدي1">تمهيدي أول (4-5 سنوات)</option><option value="kg-تمهيدي2">تمهيدي ثاني (5-6 سنوات)</option></optgroup>
+                            <optgroup label="📚 المرحلة الأساسية"><option value="primary-1">الصف الأول</option><option value="primary-2">الصف الثاني</option><option value="primary-3">الصف الثالث</option><option value="primary-4">الصف الرابع</option><option value="primary-5">الصف الخامس</option><option value="primary-6">الصف السادس</option><option value="primary-7">الصف السابع</option><option value="primary-8">الصف الثامن</option></optgroup>
+                            <optgroup label="🎯 المرحلة المتوسطة"><option value="middle-1">الصف الأول</option><option value="middle-2">الصف الثاني</option><option value="middle-3">الصف الثالث</option></optgroup>
+                            <optgroup label="🏆 المرحلة الثانوية"><option value="high-1">الصف الأول ثانوي</option><option value="high-2">الصف الثاني ثانوي</option><option value="high-3">الصف الثالث ثانوي</option></optgroup>
+                        </select>
+                    </div>
+                    <div class="field"><label>المدرسة السابقة</label><input type="text" id="prevSchool"></div>
+                    <div class="field"><label>السنة الدراسية</label><input type="text" id="academicYear" value="2026-2027"></div>
+                    <div class="section-title">بيانات ولي الأمر</div>
+                    <div class="field full"><label><span class="req">*</span> اسم ولي الأمر</label><input type="text" id="guardianName" required></div>
+                    <div class="field"><label><span class="req">*</span> صلة القرابة</label><select id="relation" required><option value="الأب">الأب</option><option value="الأم">الأم</option><option value="الجد">الجد</option><option value="العم">العم</option><option value="الخال">الخال</option><option value="الأخ">الأخ</option><option value="ولي أمر">ولي أمر</option></select></div>
+                    <div class="field"><label>المهنة</label><input type="text" id="occupation"></div>
+                    <div class="field"><label><span class="req">*</span> رقم الهاتف</label><input type="tel" id="phone" required></div>
+                    <div class="field"><label>رقم هاتف إضافي</label><input type="tel" id="phone2"></div>
+                    <div class="field full"><label>البريد الإلكتروني</label><input type="email" id="email"></div>
+                    <div class="field full"><label><span class="req">*</span> العنوان / السكن</label><input type="text" id="address" required></div>
+                    <div class="section-title">معلومات صحية وملاحظات</div>
+                    <div class="field full"><label>الحالة الصحية / الأمراض المزمنة</label><textarea id="health" placeholder="اذكر أي حالة صحية يجب على المدرسة معرفتها..."></textarea></div>
+                    <div class="field full"><label>ملاحظات إضافية</label><textarea id="notes" placeholder="أي ملاحظات أخرى..."></textarea></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="saveStudent()"><span>💾</span> حفظ البيانات</button>
+            <button class="btn btn-ghost" style="background:var(--bg);color:var(--ink);border:1px solid var(--line)" onclick="closeModal()"><span>❌</span> إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════ Fees Modal (NEW) ═══════ -->
+<div class="modal-bg" id="feesModalBg">
+    <div class="modal">
+        <div class="modal-header" style="background: linear-gradient(135deg, #1a5c3a, var(--success));">
+            <h2><span>💰</span><span>إدارة رسوم الطلاب</span></h2>
+            <button class="close-btn" onclick="closeFeesModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="field full" style="margin-bottom: 20px;">
+                <label>البحث عن طالب (بالاسم أو رقم البطاقة)</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="feeSearchInput" placeholder="اكتب اسم الطالب أو رقم البطاقة..." oninput="searchStudentForFees()">
+                    <button class="btn btn-primary" style="background: var(--success);" onclick="searchStudentForFees()">بحث</button>
+                </div>
+            </div>
+            <div id="feeStudentResult" style="margin-bottom: 20px;"></div>
+            
+            <div id="feeFormContainer" style="display: none;">
+                <div class="section-title" style="color: var(--success); border-color: var(--success);">تسجيل المدفوعات</div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label>رسوم التسجيل</label>
+                        <input type="number" id="fee_reg" min="0" placeholder="0">
+                    </div>
+                    <div class="field">
+                        <label>القسط الأول</label>
+                        <input type="number" id="fee_inst1" min="0" placeholder="0">
+                    </div>
+                    <div class="field full">
+                        <label>القسط الثاني</label>
+                        <input type="number" id="fee_inst2" min="0" placeholder="0">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" style="background: var(--success);" onclick="saveFees()"><span>💾</span> حفظ الرسوم</button>
+            <button class="btn btn-ghost" style="background:var(--bg);color:var(--ink);border:1px solid var(--line)" onclick="closeFeesModal()"><span>❌</span> إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════ Print Modal ═══════ -->
+<div class="modal-bg" id="printModalBg">
+    <div class="modal" style="max-width:700px">
+        <div class="modal-header">
+            <h2><span>🖨️</span> بطاقة الطالب</h2>
+            <button class="close-btn" onclick="closePrintModal()">✕</button>
+        </div>
+        <div class="modal-body" id="printContent"></div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="window.print()"><span>🖨️</span> طباعة البطاقة</button>
+            <button class="btn btn-ghost" style="background:var(--bg);color:var(--ink);border:1px solid var(--line)" onclick="closePrintModal()">إغلاق</button>
+        </div>
+    </div>
+</div>
+
+<div id="toasts"></div>
+
 <script>
-    // ==================== DATA ====================
-    const STAGES = {
-        kg: { name: 'الروضة', icon: 'baby', color: 'pink' },
-        pr: { name: 'الأساسي', icon: 'book-reader', color: 'blue' },
-        md: { name: 'المتوسط', icon: 'graduation-cap', color: 'green' },
-        hs: { name: 'الثانوي', icon: 'user-graduate', color: 'yellow' }
-    };
+/* ═══════════════════════════════════════════
+   نظام إدارة طلاب مدرسة السلطان عيسى الساير
+   ═══════════════════════════════════════════ */
 
-    let data = JSON.parse(localStorage.getItem('ses_full_data')) || {
-        director: { username: 'admin', password: '123456' },
-        students: { kg: [], pr: [], md: [], hs: [] },
-        feeTypes: { kg: [], pr: [], md: [], hs: [] },
-        payments: { kg: [], pr: [], md: [], hs: [] }
-    };
+const STORAGE_KEY = 'sultan_isa_students_v2';
+let students = [];
+let currentStage = 'all';
+let currentGender = 'all';
+let editingId = null;
+let currentFeeStudentId = null;
 
-    function saveData() {
-        localStorage.setItem('ses_full_data', JSON.stringify(data));
+const stageNames = {
+    'kg-برعم': 'برعم', 'kg-تمهيدي1': 'تمهيدي أول', 'kg-تمهيدي2': 'تمهيدي ثاني',
+    'primary-1': 'أساسي - الصف الأول', 'primary-2': 'أساسي - الصف الثاني', 'primary-3': 'أساسي - الصف الثالث',
+    'primary-4': 'أساسي - الصف الرابع', 'primary-5': 'أساسي - الصف الخامس', 'primary-6': 'أساسي - الصف السادس',
+    'primary-7': 'أساسي - الصف السابع', 'primary-8': 'أساسي - الصف الثامن',
+    'middle-1': 'متوسط - الصف الأول', 'middle-2': 'متوسط - الصف الثاني', 'middle-3': 'متوسط - الصف الثالث',
+    'high-1': 'ثانوي - الصف الأول', 'high-2': 'ثانوي - الصف الثاني', 'high-3': 'ثانوي - الصف الثالث'
+};
+
+const stageCategories = {
+    'kg-برعم': 'kg', 'kg-تمهيدي1': 'kg', 'kg-تمهيدي2': 'kg',
+    'primary-1': 'primary', 'primary-2': 'primary', 'primary-3': 'primary',
+    'primary-4': 'primary', 'primary-5': 'primary', 'primary-6': 'primary',
+    'primary-7': 'primary', 'primary-8': 'primary',
+    'middle-1': 'middle', 'middle-2': 'middle', 'middle-3': 'middle',
+    'high-1': 'high', 'high-2': 'high', 'high-3': 'high'
+};
+
+const stageIcons = { kg: '🧸', primary: '📚', middle: '🎯', high: '🏆' };
+const stageLabels = { kg: 'روضة', primary: 'أساسي', middle: 'متوسط', high: 'ثانوي' };
+
+/* ── Login ── */
+function handleLogin(e) {
+    e.preventDefault();
+    const u = document.getElementById('adminUser').value;
+    const p = document.getElementById('adminPass').value;
+    if (u === 'admin' && p === '123456') {
+        document.getElementById('loginScreen').style.display = 'none';
+        toast('تم تسجيل الدخول بنجاح');
+    } else {
+        toast('اسم المستخدم أو كلمة المرور غير صحيحة', 'error');
     }
+}
 
-    // ==================== LOGIN ====================
-    function loginDirector(e) {
-        e.preventDefault();
-        const u = document.getElementById('loginUsername').value;
-        const p = document.getElementById('loginPassword').value;
-        if (u === data.director.username && p === data.director.password) {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
-            document.getElementById('loginPassword').value = '';
-            refreshAll();
-        } else {
-            alert('❌ بيانات الدخول غير صحيحة!');
+/* ── Load / Save ── */
+function loadData() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    students = raw ? JSON.parse(raw) : [];
+}
+
+function saveData() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+}
+
+/* ── ID Generator ── */
+function generateId() {
+    const year = new Date().getFullYear();
+    const num = String(students.length + 1).padStart(4, '0');
+    return `SIS-${year}-${num}`;
+}
+
+/* ── Age Calculator ── */
+function calcAge(birthDate) {
+    if (!birthDate) return '-';
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+    return age + ' سنة';
+}
+
+/* ── Toast ── */
+function toast(msg, type='success') {
+    const t = document.createElement('div');
+    t.className = 'toast ' + (type === 'error' ? 'err' : type === 'warn' ? 'warn' : '');
+    const icons = { success: '✅', error: '❌', warn: '⚠️' };
+    t.innerHTML = `<span class="icon">${icons[type] || '✅'}</span><span>${msg}</span>`;
+    document.getElementById('toasts').appendChild(t);
+    setTimeout(() => {
+        t.style.opacity = '0'; t.style.transform = 'translateX(-100%)'; t.style.transition = '.4s';
+        setTimeout(() => t.remove(), 400);
+    }, 3000);
+}
+
+/* ── Modal ── */
+function openModal(id = null) {
+    editingId = id;
+    const form = document.getElementById('studentForm');
+    form.reset();
+    document.getElementById('studentId').value = '';
+    document.getElementById('nationality').value = 'سوداني';
+    document.getElementById('academicYear').value = '2026-2027';
+    document.getElementById('modalTitle').textContent = 'تسجيل طالب جديد';
+    
+    if (id) {
+        const s = students.find(x => x.id === id);
+        if (s) {
+            document.getElementById('modalTitle').textContent = 'تعديل بيانات الطالب';
+            document.getElementById('studentId').value = s.id;
+            document.getElementById('firstName').value = s.firstName;
+            document.getElementById('fatherName').value = s.fatherName;
+            document.getElementById('familyName').value = s.familyName || '';
+            document.getElementById('gender').value = s.gender;
+            document.getElementById('birthDate').value = s.birthDate;
+            document.getElementById('nationality').value = s.nationality;
+            document.getElementById('idNumber').value = s.idNumber || '';
+            document.getElementById('stage').value = s.stage;
+            document.getElementById('prevSchool').value = s.prevSchool || '';
+            document.getElementById('academicYear').value = s.academicYear;
+            document.getElementById('guardianName').value = s.guardianName;
+            document.getElementById('relation').value = s.relation;
+            document.getElementById('occupation').value = s.occupation || '';
+            document.getElementById('phone').value = s.phone;
+            document.getElementById('phone2').value = s.phone2 || '';
+            document.getElementById('email').value = s.email || '';
+            document.getElementById('address').value = s.address;
+            document.getElementById('health').value = s.health || '';
+            document.getElementById('notes').value = s.notes || '';
         }
     }
+    document.getElementById('modalBg').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
 
-    function logout() {
-        if (confirm('هل تريد تسجيل الخروج؟')) {
-            document.getElementById('mainApp').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'flex';
+function closeModal() {
+    document.getElementById('modalBg').classList.remove('show');
+    document.body.style.overflow = '';
+    editingId = null;
+}
+
+/* ── Save Student ── */
+function saveStudent() {
+    const form = document.getElementById('studentForm');
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        toast('يرجى تعبئة جميع الحقول المطلوبة', 'error');
+        return;
+    }
+    
+    const student = {
+        id: document.getElementById('studentId').value || generateId(),
+        firstName: document.getElementById('firstName').value.trim(),
+        fatherName: document.getElementById('fatherName').value.trim(),
+        familyName: document.getElementById('familyName').value.trim(),
+        gender: document.getElementById('gender').value,
+        birthDate: document.getElementById('birthDate').value,
+        nationality: document.getElementById('nationality').value.trim(),
+        idNumber: document.getElementById('idNumber').value.trim(),
+        stage: document.getElementById('stage').value,
+        prevSchool: document.getElementById('prevSchool').value.trim(),
+        academicYear: document.getElementById('academicYear').value.trim(),
+        guardianName: document.getElementById('guardianName').value.trim(),
+        relation: document.getElementById('relation').value,
+        occupation: document.getElementById('occupation').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        phone2: document.getElementById('phone2').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        health: document.getElementById('health').value.trim(),
+        notes: document.getElementById('notes').value.trim(),
+        fees: editingId ? (students.find(x => x.id === editingId)?.fees || { reg: 0, inst1: 0, inst2: 0 }) : { reg: 0, inst1: 0, inst2: 0 },
+        registeredAt: new Date().toISOString()
+    };
+    
+    if (editingId) {
+        const idx = students.findIndex(s => s.id === editingId);
+        if (idx !== -1) {
+            student.registeredAt = students[idx].registeredAt;
+            students[idx] = student;
+            toast('تم تحديث بيانات الطالب بنجاح');
         }
+    } else {
+        students.unshift(student);
+        toast('تم تسجيل الطالب بنجاح 🎉');
+    }
+    saveData();
+    render();
+    closeModal();
+}
+
+/* ── Delete / Clear / Edit ── */
+function deleteStudent(id) {
+    const s = students.find(x => x.id === id);
+    if (!s) return;
+    if (!confirm(`هل تريد حذف بيانات الطالب:\n${s.firstName} ${s.fatherName}؟`)) return;
+    students = students.filter(x => x.id !== id);
+    saveData(); render(); toast('تم حذف بيانات الطالب', 'warn');
+}
+
+function clearAll() {
+    if (students.length === 0) return toast('لا يوجد طلاب', 'warn');
+    if (!confirm(`سيتم حذف جميع بيانات ${students.length} طالب!\nهل أنت متأكد؟`)) return;
+    students = []; saveData(); render(); toast('تم مسح جميع البيانات', 'warn');
+}
+
+function editStudent(id) { openModal(id); }
+
+/* ── Fees Management (NEW) ── */
+function openFeesModal() {
+    document.getElementById('feesModalBg').classList.add('show');
+    document.getElementById('feeSearchInput').value = '';
+    document.getElementById('feeStudentResult').innerHTML = '';
+    document.getElementById('feeFormContainer').style.display = 'none';
+    currentFeeStudentId = null;
+}
+
+function closeFeesModal() {
+    document.getElementById('feesModalBg').classList.remove('show');
+    document.body.style.overflow = '';
+    currentFeeStudentId = null;
+}
+
+function searchStudentForFees() {
+    const query = document.getElementById('feeSearchInput').value.trim().toLowerCase();
+    const resultDiv = document.getElementById('feeStudentResult');
+    
+    if (query.length < 2) {
+        resultDiv.innerHTML = '';
+        document.getElementById('feeFormContainer').style.display = 'none';
+        return;
     }
 
-    // ==================== NAVIGATION ====================
-    function showSection(id, btn) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if (btn) btn.classList.add('active');
-        refreshAll();
-    }
+    const found = students.find(s => {
+        const fullName = `${s.firstName} ${s.fatherName} ${s.familyName || ''}`.toLowerCase();
+        return fullName.includes(query) || s.id.toLowerCase().includes(query) || (s.idNumber && s.idNumber.includes(query));
+    });
 
-    function showSubSection(stage, sub, btn) {
-        // Hide all sub-sections in this stage
-        document.querySelectorAll(`#stage-${stage} .sub-section`).forEach(s => s.classList.remove('active'));
-        document.querySelectorAll(`#stage-${stage} .sub-tab`).forEach(b => b.classList.remove('active'));
-        document.getElementById(`${stage}-${sub}`).classList.add('active');
+    if (found) {
+        currentFeeStudentId = found.id;
+        const totalPaid = (found.fees?.reg || 0) + (found.fees?.inst1 || 0) + (found.fees?.inst2 || 0);
+        resultDiv.innerHTML = `
+            <div style="background: #d1fae5; padding: 15px; border-radius: 10px; border-right: 4px solid var(--success);">
+                <strong>✅ تم العثور على:</strong> ${found.firstName} ${found.fatherName} <br>
+                <small>رقم الطالب: ${found.id} | رقم البطاقة: ${found.idNumber || 'غير محدد'} | المرحلة: ${stageNames[found.stage]}</small><br>
+                <small style="color: var(--success); font-weight: bold;">إجمالي المدفوع سابقاً: ${totalPaid} جنيه</small>
+            </div>
+        `;
+        document.getElementById('feeFormContainer').style.display = 'block';
+        document.getElementById('fee_reg').value = found.fees?.reg || 0;
+        document.getElementById('fee_inst1').value = found.fees?.inst1 || 0;
+        document.getElementById('fee_inst2').value = found.fees?.inst2 || 0;
+    } else {
+        resultDiv.innerHTML = `<div style="background: #fee2e2; padding: 15px; border-radius: 10px; color: var(--danger);">❌ لم يتم العثور على طالب بهذا الاسم أو رقم البطاقة</div>`;
+        document.getElementById('feeFormContainer').style.display = 'none';
+    }
+}
+
+function saveFees() {
+    if (!currentFeeStudentId) return toast('يرجى البحث عن طالب واختياره أولاً', 'error');
+    
+    const idx = students.findIndex(s => s.id === currentFeeStudentId);
+    if (idx !== -1) {
+        students[idx].fees = {
+            reg: parseFloat(document.getElementById('fee_reg').value) || 0,
+            inst1: parseFloat(document.getElementById('fee_inst1').value) || 0,
+            inst2: parseFloat(document.getElementById('fee_inst2').value) || 0
+        };
+        saveData();
+        toast('تم حفظ بيانات الرسوم بنجاح 💰');
+        closeFeesModal();
+        render();
+    }
+}
+
+/* ── Print Card ── */
+function printCard(id) {
+    const s = students.find(x => x.id === id);
+    if (!s) return;
+    const fullName = `${s.firstName} ${s.fatherName}${s.familyName ? ' ' + s.familyName : ''}`;
+    const totalFees = (s.fees?.reg || 0) + (s.fees?.inst1 || 0) + (s.fees?.inst2 || 0);
+    
+    document.getElementById('printContent').innerHTML = `
+        <div class="print-card">
+            <div class="print-header">
+                <svg width="60" height="60" viewBox="0 0 100 100" style="margin-bottom:10px">
+                    <defs>
+                        <linearGradient id="pg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4af37"/><stop offset="50%" stop-color="#f5d77a"/><stop offset="100%" stop-color="#d4af37"/></linearGradient>
+                        <linearGradient id="pg2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1a3a6c"/><stop offset="100%" stop-color="#0f2647"/></linearGradient>
+                    </defs>
+                    <path d="M50 3 L92 15 L92 50 Q92 80 50 97 Q8 80 8 50 L8 15 Z" fill="url(#pg1)" stroke="#a8861f" stroke-width="1.5"/>
+                    <path d="M50 8 L87 19 L87 50 Q87 77 50 92 Q13 77 13 50 L13 19 Z" fill="url(#pg2)"/>
+                    <g transform="translate(50, 20)"><path d="M-12 0 L-9 -6 L-5 -2 L0 -8 L5 -2 L9 -6 L12 0 L10 4 L-10 4 Z" fill="#d4af37"/></g>
+                    <path d="M50 28 L51.5 32.5 L56 33 L52.5 36 L53.5 40.5 L50 38 L46.5 40.5 L47.5 36 L44 33 L48.5 32.5 Z" fill="#d4af37"/>
+                    <g transform="translate(50, 55)">
+                        <path d="M-20 -8 L-2 -4 L-2 12 L-20 8 Z" fill="#faf6ee" stroke="#a8861f" stroke-width="0.8"/>
+                        <path d="M20 -8 L2 -4 L2 12 L20 8 Z" fill="#faf6ee" stroke="#a8861f" stroke-width="0.8"/>
+                        <path d="M-2 -4 L2 -4 L2 12 L-2 12 Z" fill="#d4af37"/>
+                    </g>
+                    <path d="M30 80 Q50 84 70 80 L68 86 Q50 90 32 86 Z" fill="#d4af37"/>
+                    <text x="50" y="85" text-anchor="middle" fill="#0f2647" font-family="Amiri, serif" font-size="4" font-weight="700">السلطان عيسى الساير</text>
+                </svg>
+                <h2>مدرسة السلطان عيسى الساير</h2>
+                <p>بطاقة طالب • السنة الدراسية ${s.academicYear}</p>
+            </div>
+            <div class="print-grid">
+                <div class="print-row"><div class="lbl">رقم الطالب</div><div class="val">${s.id}</div></div>
+                <div class="print-row"><div class="lbl">الاسم الكامل</div><div class="val">${fullName}</div></div>
+                <div class="print-row"><div class="lbl">رقم البطاقة</div><div class="val">${s.idNumber || 'غير محدد'}</div></div>
+                <div class="print-row"><div class="lbl">المرحلة الدراسية</div><div class="val">${stageNames[s.stage] || s.stage}</div></div>
+                <div class="print-row"><div class="lbl">ولي الأمر</div><div class="val">${s.guardianName} (${s.relation})</div></div>
+                <div class="print-row"><div class="lbl">رقم الهاتف</div><div class="val">${s.phone}</div></div>
+                <div class="print-row" style="grid-column:1/-1; background: #f0fdf4; padding: 10px; border-radius: 8px; border: 1px solid var(--success);">
+                    <div class="lbl" style="color: var(--success);">إجمالي الرسوم المدفوعة</div>
+                    <div class="val" style="color: var(--success); font-size: 18px;">${totalFees} جنيه</div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.getElementById('printModalBg').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePrintModal() {
+    document.getElementById('printModalBg').classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+/* ── Export ── */
+function exportData() {
+    if (students.length === 0) return toast('لا توجد بيانات للتصدير', 'warn');
+    const data = JSON.stringify(students, null, 2);
+    const blob = new Blob([data], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `students_${new Date().toISOString().split('T')[0]}.json`;
+    a.click(); URL.revokeObjectURL(url);
+    toast('تم تصدير البيانات بنجاح');
+}
+
+/* ── Render ── */
+function render() {
+    const totals = { total: students.length, kg: 0, primary: 0, middle: 0, high: 0 };
+    students.forEach(s => {
+        const cat = stageCategories[s.stage];
+        if (cat && totals[cat] !== undefined) totals[cat]++;
+    });
+    
+    document.getElementById('stat-total').textContent = totals.total;
+    document.getElementById('stat-kg').textContent = totals.kg;
+    document.getElementById('stat-primary').textContent = totals.primary;
+    document.getElementById('stat-middle').textContent = totals.middle;
+    document.getElementById('stat-high').textContent = totals.high;
+    
+    document.getElementById('badge-all').textContent = totals.total;
+    document.getElementById('badge-kg').textContent = totals.kg;
+    document.getElementById('badge-primary').textContent = totals.primary;
+    document.getElementById('badge-middle').textContent = totals.middle;
+    document.getElementById('badge-high').textContent = totals.high;
+    
+    let filtered = students;
+    if (currentStage !== 'all') filtered = filtered.filter(s => stageCategories[s.stage] === currentStage);
+    if (currentGender !== 'all') filtered = filtered.filter(s => s.gender === currentGender);
+    
+    const search = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (search) {
+        filtered = filtered.filter(s => {
+            const fullName = `${s.firstName} ${s.fatherName} ${s.familyName || ''}`.toLowerCase();
+            // تم تحسين البحث ليشمل رقم البطاقة / الهوية بشكل صريح
+            return fullName.includes(search) || 
+                   s.id.toLowerCase().includes(search) ||
+                   (s.idNumber && s.idNumber.includes(search)) ||
+                   s.guardianName.toLowerCase().includes(search) ||
+                   s.phone.includes(search);
+        });
+    }
+    
+    const container = document.getElementById('studentsContainer');
+    if (filtered.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="icon">📭</div>
+                <h3>${students.length === 0 ? 'لا يوجد طلاب مسجلون بعد' : 'لا توجد نتائج مطابقة'}</h3>
+                <p>${students.length === 0 ? 'ابدأ بتسجيل أول طالب بالضغط على زر "تسجيل طالب جديد"' : 'جرب تغيير معايير البحث أو الفلترة'}</p>
+                ${students.length === 0 ? '<button class="btn btn-primary" onclick="openModal()" style="margin-top:20px"><span>➕</span> تسجيل طالب جديد</button>' : ''}
+            </div>
+        `;
+        return;
+    }
+    container.innerHTML = `<div class="students-grid">${filtered.map(s => renderCard(s)).join('')}</div>`;
+}
+
+function renderCard(s) {
+    const cat = stageCategories[s.stage] || 'primary';
+    const fullName = `${s.firstName} ${s.fatherName}${s.familyName ? ' ' + s.familyName : ''}`;
+    const initials = (s.firstName[0] || '') + (s.fatherName[0] || '');
+    const icon = stageIcons[cat];
+    const stageName = stageLabels[cat];
+    const totalFees = (s.fees?.reg || 0) + (s.fees?.inst1 || 0) + (s.fees?.inst2 || 0);
+    
+    return `
+        <div class="student-card ${cat}">
+            <div class="card-header">
+                <div class="stage-tag">${icon} ${stageName}</div>
+                <div class="card-top">
+                    <div class="avatar">${initials}</div>
+                    <div class="card-info">
+                        <h3>${fullName}</h3>
+                        <div class="id-num">${s.id} ${s.idNumber ? '| بطاقة: ' + s.idNumber : ''}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="info-row">
+                    <span class="lbl">📚 الصف:</span>
+                    <span class="val">${stageNames[s.stage] || s.stage}</span>
+                </div>
+                <div class="info-row">
+                    <span class="lbl">🎂 العمر:</span>
+                    <span class="val">${calcAge(s.birthDate)} (${s.gender === 'ذكر' ? '👦' : '👧'} ${s.gender})</span>
+                </div>
+                <div class="info-row">
+                    <span class="lbl">👨‍👧 ولي الأمر:</span>
+                    <span class="val">${s.guardianName}</span>
+                </div>
+                <div class="info-row">
+                    <span class="lbl">📞 الهاتف:</span>
+                    <span class="val">${s.phone}</span>
+                </div>
+                ${totalFees > 0 ? `
+                <div class="info-row" style="background: #f0fdf4; padding: 8px; border-radius: 6px; border: 1px solid #bbf7d0;">
+                    <span class="lbl" style="color: var(--success);">💰 المدفوع:</span>
+                    <span class="val" style="color: var(--success);">${totalFees} جنيه</span>
+                </div>` : ''}
+            </div>
+            <div class="card-actions">
+                <button onclick="printCard('${s.id}')" title="طباعة"><span>🖨️</span> طباعة</button>
+                <button onclick="editStudent('${s.id}')" title="تعديل"><span>✏️</span> تعديل</button>
+                <button class="delete" onclick="deleteStudent('${s.id}')" title="حذف"><span>🗑️</span> حذف</button>
+            </div>
+        </div>
+    `;
+}
+
+/* ── Events ── */
+document.getElementById('tabs').addEventListener('click', e => {
+    const tab = e.target.closest('.tab');
+    if (!tab) return;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentStage = tab.dataset.stage;
+    render();
+});
+
+document.querySelectorAll('.gender-filter button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.gender-filter button').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-    }
+        currentGender = btn.dataset.gender;
+        render();
+    });
+});
 
-    // ==================== STUDENTS ====================
-    function addStudent(e, stage) {
-        e.preventDefault();
-        const name = document.getElementById(`${stage}-student-name`).value;
-        const cls = document.getElementById(`${stage}-student-class`).value;
-        const phone = document.getElementById(`${stage}-student-phone`).value;
-        
-        const student = {
-            id: Date.now(),
-            name: name,
-            class: cls,
-            phone: phone,
-            createdAt: new Date().toISOString()
-        };
+document.getElementById('searchInput').addEventListener('input', render);
 
-        // Extra fields based on stage
-        if (stage === 'kg') {
-            student.age = document.getElementById('kg-student-age').value;
-        } else {
-            student.section = document.getElementById(`${stage}-student-section`).value;
-        }
+document.getElementById('modalBg').addEventListener('click', e => { if (e.target.id === 'modalBg') closeModal(); });
+document.getElementById('feesModalBg').addEventListener('click', e => { if (e.target.id === 'feesModalBg') closeFeesModal(); });
+document.getElementById('printModalBg').addEventListener('click', e => { if (e.target.id === 'printModalBg') closePrintModal(); });
 
-        data.students[stage].push(student);
-        saveData();
-        e.target.reset();
-        refreshAll();
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal(); closeFeesModal(); closePrintModal(); }
+});
 
-        const alertDiv = document.getElementById(`${stage}-student-alert`);
-        alertDiv.innerHTML = `<div class="alert alert-success"><i class="fas fa-check-circle"></i> تم إضافة الطالب بنجاح إلى ${STAGES[stage].name}</div>`;
-        setTimeout(() => alertDiv.innerHTML = '', 3000);
-    }
-
-    function deleteStudent(stage, id) {
-        if (!confirm('حذف الطالب وجميع مدفوعاته؟')) return;
-        data.students[stage] = data.students[stage].filter(s => s.id !== id);
-        data.payments[stage] = data.payments[stage].filter(p => p.studentId !== id);
-        saveData();
-        refreshAll();
-    }
-
-    function showStudentDetails(stage, id) {
-        const student = data.students[stage].find(s => s.id === id);
-        if (!student) return;
-
-        const totalDue = data.feeTypes[stage].reduce((sum, f) => sum + parseFloat(f.amount), 0);
-        const studentPayments = data.payments[stage].filter(p => p.studentId === id);
-        const totalPaid = studentPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
-        const remaining = Math.max(0, totalDue - totalPaid);
-
-        let classInfo = student.class;
-        if (stage === 'kg') classInfo += student.age ? ` (العمر: ${student.age})` : '';
-        else if (student.section) classInfo += ` - ${student.section}`;
-
-        let html = `
-            <div style="background: #f9fafb; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
-                <h4 style="color: var(--primary);">${student.name}</h4>
-                <p>${STAGES[stage].name} | ${classInfo} | هاتف: ${student.phone}</p>
-            </div>
-        `;
-
-        if (data.feeTypes[stage].length === 0) {
-            html += '<p style="color: var(--text-light); text-align: center; padding: 1rem;">لم يتم تحديد رسوم لهذه المرحلة</p>';
-        } else {
-            html += '<table style="width: 100%;"><thead><tr><th>نوع الرسوم</th><th>المستحق</th><th>المدفوع</th><th>المتبقي</th></tr></thead><tbody>';
-            data.feeTypes[stage].forEach(fee => {
-                const paid = studentPayments.filter(p => p.feeTypeId === fee.id).reduce((sum, p) => sum + parseFloat(p.amount), 0);
-                const due = parseFloat(fee.amount);
-                const rem = Math.max(0, due - paid);
-                html += `<tr>
-                    <td>${fee.name}</td>
-                    <td>${due.toLocaleString()}</td>
-                    <td style="color: var(--success);">${paid.toLocaleString()}</td>
-                    <td style="color: ${rem > 0 ? 'var(--danger)' : 'var(--success)'};">${rem.toLocaleString()}</td>
-                </tr>`;
-            });
-            html += '</tbody></table>';
-        }
-
-        html += `
-            <div style="margin-top: 1.5rem; padding: 1rem; background: #eff6ff; border-radius: 10px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                    <span>إجمالي المستحق:</span> <strong>${totalDue.toLocaleString()}</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                    <span>إجمالي المدفوع:</span> <strong style="color: var(--success);">${totalPaid.toLocaleString()}</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 1.1rem;">
-                    <span>المتبقي:</span> <strong style="color: ${remaining > 0 ? 'var(--danger)' : 'var(--success)'};">${remaining.toLocaleString()}</strong>
-                </div>
-            </div>
-        `;
-
-        document.getElementById('modalContent').innerHTML = html;
-        document.getElementById('studentModal').classList.add('active');
-    }
-
-    function closeModal() {
-        document.getElementById('studentModal').classList.remove('active');
-    }
-
-    function renderStudents(stage) {
-        const tbody = document.getElementById(`${stage}-students-table`);
-        const students = data.students[stage];
-
-        if (students.length === 0) {
-            const cols = stage === 'kg' ? 7 : 7;
-            tbody.innerHTML = `<tr><td colspan="${cols}" style="text-align: center; color: var(--text-light); padding: 2rem;">لا يوجد طلاب مسجلين في ${STAGES[stage].name}</td></tr>`;
-            return;
-        }
-
-        tbody.innerHTML = students.map((s, i) => {
-            const totalDue = data.feeTypes[stage].reduce((sum, f) => sum + parseFloat(f.amount), 0);
-            const paid = data.payments[stage].filter(p => p.studentId === s.id).reduce((sum, p) => sum + parseFloat(p.amount), 0);
-            
-            let status;
-            if (totalDue === 0) status = '<span class="badge badge-yellow">لم تحدد رسوم</span>';
-            else if (paid >= totalDue) status = '<span class="badge badge-green">مسدد</span>';
-            else if (paid > 0) status = '<span class="badge badge-yellow">جزئي</span>';
-            else status = '<span class="badge badge-red">لم يدفع</span>';
-
-            if (stage === 'kg') {
-                return `<tr>
-                    <td>${i + 1}</td>
-                    <td><strong>${s.name}</strong></td>
-                    <td><span class="badge badge-pink">${s.class}</span></td>
-                    <td>${s.age || '-'}</td>
-                    <td>${s.phone}</td>
-                    <td>${status}</td>
-                    <td>
-                        <button class="btn btn-primary btn-sm" onclick="showStudentDetails('${stage}', ${s.id})">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-danger" onclick="deleteStudent('${stage}', ${s.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>`;
-            } else {
-                return `<tr>
-                    <td>${i + 1}</td>
-                    <td><strong>${s.name}</strong></td>
-                    <td>${s.class}</td>
-                    <td>${s.section || '-'}</td>
-                    <td>${s.phone}</td>
-                    <td>${status}</td>
-                    <td>
-                        <button class="btn btn-primary btn-sm" onclick="showStudentDetails('${stage}', ${s.id})">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-danger" onclick="deleteStudent('${stage}', ${s.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>`;
-            }
-        }).join('');
-    }
-
-    // ==================== FEE TYPES ====================
-    function addFeeType(e, stage) {
-        e.preventDefault();
-        const fee = {
-            id: Date.now(),
-            name: document.getElementById(`${stage}-fee-name`).value,
-            amount: parseFloat(document.getElementById(`${stage}-fee-amount`).value),
-            description: document.getElementById(`${stage}-fee-desc`).value
-        };
-        data.feeTypes[stage].push(fee);
-        saveData();
-        e.target.reset();
-        refreshAll();
-    }
-
-    function deleteFeeType(stage, id) {
-        if (!confirm('حذف نوع الرسوم ومدفوعاته؟')) return;
-        data.feeTypes[stage] = data.feeTypes[stage].filter(f => f.id !== id);
-        data.payments[stage] = data.payments[stage].filter(p => p.feeTypeId !== id);
-        saveData();
-        refreshAll();
-    }
-
-    function renderFeeTypes(stage) {
-        const container = document.getElementById(`${stage}-fees-list`);
-        const fees = data.feeTypes[stage];
-        if (fees.length === 0) {
-            container.innerHTML = `<p style="text-align: center; color: var(--text-light); padding: 2rem;">لم يتم إضافة رسوم لـ ${STAGES[stage].name} بعد</p>`;
-            return;
-        }
-        container.innerHTML = fees.map(f => `
-            <div class="fee-type-item">
-                <div>
-                    <h4>${f.name}</h4>
-                    ${f.description ? `<small style="color: var(--text-light);">${f.description}</small>` : ''}
-                </div>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span class="amount">${f.amount.toLocaleString()}</span>
-                    <button class="btn btn-danger" onclick="deleteFeeType('${stage}', ${f.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // ==================== PAYMENTS ====================
-    function addPayment(e, stage) {
-        e.preventDefault();
-        const payment = {
-            id: Date.now(),
-            studentId: parseInt(document.getElementById(`${stage}-pay-student`).value),
-            feeTypeId: parseInt(document.getElementById(`${stage}-pay-fee`).value),
-            amount: parseFloat(document.getElementById(`${stage}-pay-amount`).value),
-            date: document.getElementById(`${stage}-pay-date`).value,
-            notes: document.getElementById(`${stage}-pay-notes`).value
-        };
-        data.payments[stage].push(payment);
-        saveData();
-        e.target.reset();
-        refreshAll();
-        alert('✅ تم تسجيل الدفعة بنجاح');
-    }
-
-    function fillAmount(stage) {
-        const feeTypeId = parseInt(document.getElementById(`${stage}-pay-fee`).value);
-        const fee = data.feeTypes[stage].find(f => f.id === feeTypeId);
-        if (fee) document.getElementById(`${stage}-pay-amount`).value = fee.amount;
-    }
-
-    function deletePayment(stage, id) {
-        if (!confirm('حذف هذه الدفعة؟')) return;
-        data.payments[stage] = data.payments[stage].filter(p => p.id !== id);
-        saveData();
-        refreshAll();
-    }
-
-    function renderPayments(stage) {
-        // Populate dropdowns
-        const studentSelect = document.getElementById(`${stage}-pay-student`);
-        const feeSelect = document.getElementById(`${stage}-pay-fee`);
-        
-        studentSelect.innerHTML = '<option value="">-- اختر طالب --</option>' +
-            data.students[stage].map(s => {
-                let label = s.name;
-                if (stage === 'kg') label += ` - ${s.class}`;
-                else label += ` - ${s.class}${s.section ? ' ' + s.section : ''}`;
-                return `<option value="${s.id}">${label}</option>`;
-            }).join('');
-        
-        feeSelect.innerHTML = '<option value="">-- اختر نوع الرسوم --</option>' +
-            data.feeTypes[stage].map(f => `<option value="${f.id}">${f.name} (${f.amount.toLocaleString()})</option>`).join('');
-
-        document.getElementById(`${stage}-pay-date`).value = new Date().toISOString().split('T')[0];
-
-        // Render table
-        const tbody = document.getElementById(`${stage}-payments-table`);
-        const payments = data.payments[stage];
-        if (payments.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-light); padding: 2rem;">لا توجد مدفوعات</td></tr>';
-            return;
-        }
-        tbody.innerHTML = payments.slice().reverse().map(p => {
-            const student = data.students[stage].find(s => s.id === p.studentId);
-            const fee = data.feeTypes[stage].find(f => f.id === p.feeTypeId);
-            const classInfo = student ? (stage === 'kg' ? student.class : (student.class + (student.section ? ' ' + student.section : ''))) : '-';
-            return `<tr>
-                <td>${p.date}</td>
-                <td>${student ? student.name : 'محذوف'}</td>
-                <td>${classInfo}</td>
-                <td>${fee ? fee.name : 'محذوف'}</td>
-                <td><strong style="color: var(--success);">${parseFloat(p.amount).toLocaleString()}</strong></td>
-                <td>${p.notes || '-'}</td>
-                <td>
-                    <button class="btn btn-danger" onclick="deletePayment('${stage}', ${p.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            </tr>`;
-        }).join('');
-    }
-
-    // ==================== DASHBOARD ====================
-    function updateDashboard() {
-        let totalStudents = 0, totalCollected = 0, totalPending = 0, totalUnpaid = 0;
-
-        Object.keys(STAGES).forEach(stage => {
-            const count = data.students[stage].length;
-            const collected = data.payments[stage].reduce((sum, p) => sum + parseFloat(p.amount), 0);
-            
-            document.getElementById(`${stage}-count`).innerText = count;
-            document.getElementById(`${stage}-collected`).innerText = collected.toLocaleString();
-            document.getElementById(`${stage}-header-count`).innerText = count;
-
-            totalStudents += count;
-            totalCollected += collected;
-
-            const due = count * data.feeTypes[stage].reduce((sum, f) => sum + parseFloat(f.amount), 0);
-            totalPending += Math.max(0, due - collected);
-
-            data.students[stage].forEach(s => {
-                const paid = data.payments[stage].filter(p => p.studentId === s.id).reduce((sum, p) => sum + parseFloat(p.amount), 0);
-                if (paid === 0 && data.feeTypes[stage].length > 0) totalUnpaid++;
-            });
-        });
-
-        document.getElementById('stat-total-students').innerText = totalStudents;
-        document.getElementById('stat-total-collected').innerText = totalCollected.toLocaleString();
-        document.getElementById('stat-total-pending').innerText = totalPending.toLocaleString();
-        document.getElementById('stat-unpaid').innerText = totalUnpaid;
-    }
-
-    // ==================== REPORTS ====================
-    function renderReport() {
-        const filter = document.getElementById('report-filter-stage').value;
-        const tbody = document.getElementById('report-table');
-        const stages = filter === 'all' ? Object.keys(STAGES) : [filter];
-        
-        let rows = [];
-        stages.forEach(stage => {
-            data.students[stage].forEach(s => {
-                const totalDue = data.feeTypes[stage].reduce((sum, f) => sum + parseFloat(f.amount), 0);
-                const paid = data.payments[stage].filter(p => p.studentId === s.id).reduce((sum, p) => sum + parseFloat(p.amount), 0);
-                const remaining = Math.max(0, totalDue - paid);
-                
-                let status;
-                if (totalDue === 0) status = '<span class="badge badge-yellow">-</span>';
-                else if (paid >= totalDue) status = '<span class="badge badge-green">مسدد</span>';
-                else if (paid > 0) status = '<span class="badge badge-yellow">جزئي</span>';
-                else status = '<span class="badge badge-red">لم يدفع</span>';
-
-                let classInfo = s.class;
-                if (stage === 'kg' && s.age) classInfo += ` (${s.age} سنوات)`;
-                else if (s.section) classInfo += ` - ${s.section}`;
-
-                const stageBadge = {
-                    kg: 'badge-pink',
-                    pr: 'badge-blue',
-                    md: 'badge-green',
-                    hs: 'badge-yellow'
-                }[stage];
-
-                rows.push(`<tr>
-                    <td><span class="badge ${stageBadge}">${STAGES[stage].name}</span></td>
-                    <td><strong>${s.name}</strong></td>
-                    <td>${classInfo}</td>
-                    <td>${totalDue.toLocaleString()}</td>
-                    <td style="color: var(--success);">${paid.toLocaleString()}</td>
-                    <td style="color: ${remaining > 0 ? 'var(--danger)' : 'var(--success)'};">${remaining.toLocaleString()}</td>
-                    <td>${status}</td>
-                </tr>`);
-            });
-        });
-
-        if (rows.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-light); padding: 2rem;">لا يوجد طلاب</td></tr>';
-        } else {
-            tbody.innerHTML = rows.join('');
-        }
-    }
-
-    // ==================== REFRESH ====================
-    function refreshAll() {
-        Object.keys(STAGES).forEach(stage => {
-            renderStudents(stage);
-            renderFeeTypes(stage);
-            renderPayments(stage);
-        });
-        updateDashboard();
-        renderReport();
-    }
+/* ── Init ── */
+loadData();
+if (students.length === 0) {
+    students = [
+        { id: 'SIS-2026-0001', firstName: 'محمد', fatherName: 'أحمد', familyName: 'السلطان', gender: 'ذكر', birthDate: '2010-05-14', nationality: 'سوداني', idNumber: '1234567890', stage: 'primary-4', prevSchool: '', academicYear: '2026-2027', guardianName: 'أحمد السلطان', relation: 'الأب', occupation: 'مهندس', phone: '0912345678', phone2: '', email: '', address: 'الخرطوم - الرياض', health: '', notes: '', fees: { reg: 5000, inst1: 10000, inst2: 0 }, registeredAt: new Date().toISOString() },
+        { id: 'SIS-2026-0002', firstName: 'فاطمة', fatherName: 'عمر', familyName: 'الميرغني', gender: 'أنثى', birthDate: '2015-08-22', nationality: 'سوداني', idNumber: '9876543210', stage: 'kg-تمهيدي2', prevSchool: '', academicYear: '2026-2027', guardianName: 'عمر الميرغني', relation: 'الأب', occupation: 'طبيب', phone: '0911223344', phone2: '', email: '', address: 'أم درمان - المهندسين', health: 'حساسية من المكسرات', notes: '', fees: { reg: 3000, inst1: 0, inst2: 0 }, registeredAt: new Date().toISOString() }
+    ];
+    saveData();
+}
+render();
 </script>
-
 </body>
 </html>
